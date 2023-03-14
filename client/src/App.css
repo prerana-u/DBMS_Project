@@ -1,0 +1,170 @@
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+#d1{
+  position: absolute;
+  left: 35%;
+  top: 58%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  width: 700px;
+  height: 500px;
+  font-size: 30px;
+  color:#003C87;
+  font-family: 'Gugi', cursive;
+  }
+  #bowl{
+    width: 450px;
+    height: 400px;
+    float: right;
+    margin-top: 100px;
+    margin-right: 100px;
+    z-index: 1;
+    position: relative;
+    
+    }
+  #wave{
+    width: 100%;
+    margin-left: 0%;
+    margin-top: -100px;
+    z-index: -1;
+    }
+
+  #uf
+  {
+    background-color: #1aa1dd;
+    height: fit-content;
+    width: 100%;
+    margin-top: -10px;
+    text-align: center;
+    padding: 40px;
+    padding-top: 10px;
+    display: flex;
+  }
+  #up
+  {
+    background-color: #1aa1dd;
+    height: fit-content;
+    width: 100%;
+    margin-top: 0px;
+    text-align: center;
+    padding: 40px;
+    padding-top: 70px;
+    display: flex;
+  }
+  h2{
+    color:#196EDA;
+    margin-top: 20px;
+  }
+  #uftext{
+    color:#ffffff;
+    font-size: 28px;
+    position: absolute;
+    left: 42%;
+    top: 102%;
+    font-family: 'Gugi', cursive;
+  }
+  #uptext{
+    color:#ffffff;
+    font-size: 28px;
+    position: absolute;
+    left: 42%;
+    top: 170%;
+    font-family: 'Gugi', cursive;
+  }
+  #mc
+  {
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+  }
+  #mcContainer
+  {
+    margin: 0px 60px 0px 60px;
+  }
+
+  .container{
+    margin-left:15%;
+    height: 100%;
+    width: 85%;
+    padding: 0 35px 50px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    grid-gap: 5px;
+    gap: 5px;
+    
+}
+.heading{
+  margin-top: 2%;
+  margin-left: -5%;
+  height: 20vh;
+  width: 90%;
+  border-radius: 15px;
+  background-color: #1BA2DE;
+}
+.content1{
+  margin-left: -5%;
+  margin-top: 5%;
+  height: 45vh;
+  width: 90%;
+}
+.view_previous_fest{
+  margin-left: -5%;
+  margin-top: 5%;
+  width: 90%;
+  text-align: left;
+}
+.fest-text{
+  font-family: "Gugi",cursive;
+  color: #196EDA;
+  font-size: 30px;
+}
+.card1{
+  margin-left: -4%;
+}
+.card2{
+  margin-left: 6%;
+}
+.content2{
+  width: 102%;
+  height: 100%;
+  align-items: left;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+.headingcontent1{
+  width: 90%;
+  height: 20vh;
+  font-family: "Gugi",cursive;
+  font-size: 40px;
+  align-items: left;
+  display: grid;
+  text-align: center;
+  color: #fff;
+  grid-template-columns: auto auto ;
+}
+.fest-card1{
+  font-family: "Gugi",cursive;
+  margin-left: 6%;
+}
+.fest-card{
+  width: 100%;
+  height: 100%;
+}
+.headtext{
+  margin-top: 8%;
+}
+.headimg{
+  margin-left: 35%;
+  margin-top: 2%; 
+  align-items: right;
+}
+.headimg img{
+  height: 92%;
+}

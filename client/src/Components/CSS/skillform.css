@@ -1,0 +1,16 @@
+#sf{
+    text-align: center;
+    font-family: 'Gugi', cursive;
+    padding: 20px;
+    margin: auto;
+    color: #003C87;
+    margin-bottom: 100px;
+    overflow: hidden;
+
+    width:650px;
+    height:fit-content;
+    -moz-box-shadow: 0 0 5px #ccc;
+    -webkit-box-shadow: 0 0 3px #ccc;
+    box-shadow: 0 0 3px #ccc;
+
+    }
