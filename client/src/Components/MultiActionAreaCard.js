@@ -8,13 +8,7 @@ import cardimg from './Images/fest1.png';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 
 export default function MultiActionAreaCard(props) {
-  
-  const Actions=()=>{
-    if(sessionStorage.getItem('email')!=null)
-    {
-      
-    }
-  }
+
   return (
     <Card sx={{ maxWidth: 345 }} >
       <CardActionArea>

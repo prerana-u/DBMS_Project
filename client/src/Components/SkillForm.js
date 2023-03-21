@@ -34,7 +34,7 @@ export default function SkillForm()
     };
   const SendSkills=()=>
   {
-    var askill1='none',askill2='none',askill3='none',iskill1='none',iskill2='none',iskill3='none',bskill1='none',bskill2='none',bskill3='none';
+    var askill1='None',askill2='None',askill3='None',iskill1='None',iskill2='None',iskill3='None',bskill1='None',bskill2='None',bskill3='None';
     if(AdvSkills.length===1)
     {
       askill1=AdvSkills[0].skill;
@@ -80,7 +80,7 @@ export default function SkillForm()
       bskill2=BaseSkills[1].skill;
       bskill3=BaseSkills[2].skill;
     }
-    Axios.post("http://localhost:3001/getskills", {
+    Axios.post("http://localhost:3001/setskills", {
       advskill1:askill1,
       advskill2:askill2,
       advskill3:askill3,
