@@ -5,7 +5,7 @@ import sflogo from './Images/sflogo.png';
 import { Link } from 'react-router-dom';
 const Verticalnav = ()=> {
   return (
-    <div>
+    <div className='VNavContainer'>
       <nav className='vnav'>
          <div className="profile">
           <div className='logo1'><img src={sflogo} alt="navimg" /></div>
@@ -23,6 +23,10 @@ const Verticalnav = ()=> {
             <br/>
             <li>
             <Link to="/" id="link"><b><i className="fa fa-info-circle"></i>  About</b></Link>
+            </li>
+            <br/>
+            <li>
+            <Link to="/search" id="link"><b><i className="fa fa-search"></i>  Search</b></Link>
             </li>
             <br/>
             <li>

@@ -22,7 +22,7 @@ app.use(
 const db = mysql.createConnection({
     user: "root",
     host: "localhost",
-    password: "Prerana@2000",
+    password: "",
     database: "projectdata",
     
  });
@@ -156,7 +156,36 @@ app.get('/teachdata', (req, res)=> {
   );
 });
 
-app.post('/getskills', (req, res)=> {
+// app.get('/getskills', (req, res)=> {
+//   const skill = req.body.skill;
+//   console.log(skill);
+//   db.execute(
+//     "Select * from student where adv_skill1 like %?% or adv_skill2 like %?%",
+//     [skill,skill],
+//     (err, result)=> {
+//     //console.log(err);
+//     console.log(result);
+//     res.send(result);
+//     }
+//   );
+// });
+
+app.get('/getskills', (req, res) => {
+  const skill = req.query.skill;
+  console.log(skill);
+
+    db.execute(
+          "Select * from student where adv_skill1 like '%" + skill + "%' or adv_skill2 like '%" + skill + "%' or adv_skill3 like '%" + skill + "%' or int_skill1 like '%" + skill + "%' or int_skill2 like '%" + skill + "%' or int_skill3 like '%" + skill + "%' or newskill1 like '%" + skill + "%' or newskill2 like '%" + skill + "%' or newskill3 like '%" + skill + "%'",
+        
+          (err, result)=> {
+          //console.log(err);
+          console.log(result);
+          res.send(result);
+          }
+        );
+  });
+
+app.post('/setskills', (req, res)=> {
   const askill1 = req.body.advskill1;
   const askill2 = req.body.advskill2;
   const askill3 = req.body.advskill3;
