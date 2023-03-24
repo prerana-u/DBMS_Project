@@ -49,7 +49,7 @@ function TeachDash(props) {
 
  return (
     <div onLoad={fetchdata}>
-    <Verticalnav/>
+    <Verticalnav role="teacher" cpage="dashboard"/>
       <div className="container">
          <div className="heading">
             <div className='headingcontent1'>

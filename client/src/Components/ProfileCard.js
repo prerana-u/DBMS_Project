@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './CSS/profilecard.css';
-
+import { createClient } from "@supabase/supabase-js";
 export default function ProfileCard(props) {
 	var arr = [];
 	if(props.advskill1!=='None' && props.advskill1!=='none')
@@ -42,10 +42,18 @@ export default function ProfileCard(props) {
 	}
 	
 	console.log(arr);
+
+	const supabase = createClient("https://npropcvowslhzxxaigvi.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wcm9wY3Zvd3NsaHp4eGFpZ3ZpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3OTM5OTg3NywiZXhwIjoxOTk0OTc1ODc3fQ.iJ_vCpYUyRFEIP3ZgfYVZvXaQoAHLK7OtierGGpasOA");
+	const { data, error } = supabase
+	   .storage
+	   .from('pictures')
+	   .getPublicUrl('public/'+props.name+'.png')
+	   console.log(data.publicUrl);
+
   return (
     <div className="card-container">
 	
-	<img className="round" src="https://randomuser.me/api/portraits/women/79.jpg" alt="user" />
+	<img className="round" src={data.publicUrl} alt="user" />
 	<h3>{props.name}</h3>
 	<h6>{props.semester} {props.sclass}</h6>
 	<p>Department of {props.dep}</p>

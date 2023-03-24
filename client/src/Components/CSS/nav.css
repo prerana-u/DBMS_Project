@@ -33,12 +33,14 @@
  .vnav .img1{
     margin-top: 20%;
     margin-left: 15%;
-    width: 100%;
-    height: 8vh;
+    width:60px;
+    height: 60px;
+   
   }
   .img1 img{
     width: 58px;
     height: 58px;
+    border-radius: 50%;
   }
  .vnav ul {
     list-style-type: none;

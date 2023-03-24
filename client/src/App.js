@@ -7,8 +7,7 @@ import Login from './Components/Login';
 import SkillForm from './Components/SkillForm';
 import SearchBar from './Components/SearchBar';
 import TeachDash from './Components/Teacher_Dash';
-import { createContext, useState } from 'react';
-export let searchContext = createContext(null);
+import StudentDash from './Components/Student_Dash';
 
 function App() {
  
@@ -24,6 +23,7 @@ function App() {
     
       </Route>
         <Route path="td" element={<TeachDash />} />
+        <Route path="studentdash" element={<StudentDash />} />
         <Route path="search" element={<SearchBar />} />
        
 

@@ -156,6 +156,20 @@ app.get('/teachdata', (req, res)=> {
   );
 });
 
+app.get('/studata', (req, res)=> {
+  console.log("Hi"+sessions.email);
+  db.execute(
+    "Select name from student where email=?",
+    [sessions.email],
+    (err, result)=> {
+    //console.log(err);
+    //console.log(result);
+    res.send(result);
+    }
+  );
+});
+
+
 // app.get('/getskills', (req, res)=> {
 //   const skill = req.body.skill;
 //   console.log(skill);
