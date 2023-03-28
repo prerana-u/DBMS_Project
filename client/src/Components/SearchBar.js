@@ -12,13 +12,26 @@ import headimg from './Images/headimg.png';
 import { Box } from '@mui/system';
 
 function SearchBar() {
+
+  const [tname, setTName]=useState('');
+
+  const fetchdata1 = () => {
+  Axios.get("http://localhost:3001/teachdata", {
+
+  }).then((response) => {
+     sessionStorage.teacherName=response.data[0].name;
+     setTName(response.data[0].name);
+     console.log(response);
+     console.log(response.data);
+})
+};
   
   const [skills, setSkills] = useState("");
-  const [resLength, setResLength] = useState(0);
+  
   const [profileData, setProfileData]= useState([]);
   useEffect(() => {
     console.log(profileData);
-    setResLength(profileData.length);
+    
  }, [profileData]);
   const fetchdata = () => {
   
@@ -48,12 +61,12 @@ function SearchBar() {
   }
      return(
     
-      <div className='main'>
-      <Verticalnav/>
+      <div className='main' onLoad={fetchdata1}>
+      <Verticalnav active="search" role="teacher"/>
       <div className="container">
       <div className="heading">
             <div className='headingcontent1'>
-               <div className='headtext'>Welcome vasav</div>
+               <div className='headtext'>Welcome {tname}</div>
                <div className='headimg'><img src={headimg} alt="headimg"/></div>
             </div>
       </div>

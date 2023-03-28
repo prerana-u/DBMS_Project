@@ -9,6 +9,7 @@ function StudentLogin() {
     const [email, setemail] = useState("");
     const [password, setPassword] = useState ("");
     const[loginStatus,setLoginStatus]=useState(false);
+    
     const navigate=useNavigate();
     useEffect(() => {
     console.log(loginStatus);
@@ -19,23 +20,28 @@ function StudentLogin() {
         Axios.post("http://localhost:3001/login", {
            email: email,
            password: password,
+        
         }).then((response) => {
            if (response.data.length>0) {
               console.log("Successfully logged in");
               console.log(response);
               setLoginStatus(true);
               sessionStorage.setItem("email",email);
-              navigate('/skillform');
+              navigate('/studentdash');
             
            } else {
               setLoginStatus(false);
               console.log("Invalid Details!");
            }
-        });      
-      
-      
+        }); 
         
+     
+      
       }
+     
+
+
+
     return (
       <div id="logindiv">
        

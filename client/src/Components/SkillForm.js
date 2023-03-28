@@ -5,12 +5,14 @@ import IntermediateSkills from './IntermediateSkills';
 import NewSkills from './NewSkills';
 import { Button } from '@mui/material';
 import Axios from 'axios';
+import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 //import ValidationTextFields from './ValidationTextFields';
 
 
 export default function SkillForm() 
 {
+  const navigate=useNavigate();
   const [AdvSkills, setAdvSkills] = useState([])
   const [intSkills, setintSkills] = useState([])
   const [BaseSkills, setBaseSkills] = useState([])
@@ -93,10 +95,14 @@ export default function SkillForm()
      }).then((response) => {
         console.log(response);
      });
+     navigate('/studentdash');
+
   }
 
+  
+
   return (
-    <div id="sf">
+    <div id="sf" >
     <h2>Skill Updation Form</h2>
     <h3>Enter your Skills below</h3>
     <div style={{height:'fit-content',overflow: 'hidden',marginBottom:'40px'}}>

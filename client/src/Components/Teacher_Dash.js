@@ -37,6 +37,7 @@ function TeachDash(props) {
     };
 
     const [FestDets, setFestDets] = useState([]);
+    const [UpFestDets, setUpFestDets] = useState([]);
     useEffect(() => { 
         axios.get("http://localhost:3001/preview_fest", {
       
@@ -44,12 +45,25 @@ function TeachDash(props) {
            setFestDets(response.data);
            console.log(response.data);
       })
+      axios.get("http://localhost:3001/upcoming_fest", {
+      
+        }).then((response) => {
+            if(response.length>0)
+            {
+               setUpFestDets(response.data);
+            }
+           else{
+            setUpFestDets([""]);
+           }
+           
+           console.log(response.data);
+      })
     }, []);
 
 
  return (
     <div onLoad={fetchdata}>
-    <Verticalnav/>
+    <Verticalnav role="teacher" cpage="dashboard"/>
       <div className="container">
          <div className="heading">
             <div className='headingcontent1'>
@@ -65,6 +79,68 @@ function TeachDash(props) {
          </div>
          <div className="view_previous_fest">
             <div className='fest-text'>View Previous Fests </div>
+            <div className='fest-card'>
+            <Swiper
+                spaceBetween={50}
+                slidesPerView={3}
+                onSlideChange={() => console.log('slide change')}
+                onSwiper={(swiper) => console.log(swiper)}
+            >
+            {FestDets.map((val,key) => {
+            return (
+                <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} /></SwiperSlide>
+                );
+                })} 
+            </Swiper> 
+            </div>
+         </div>
+         <div className="view_previous_fest">
+            <div className='fest-text'>View Upcoming Fests </div>
+            <div className='fest-card'>
+            <Swiper
+                spaceBetween={50}
+                slidesPerView={3}
+                onSlideChange={() => console.log('slide change')}
+                onSwiper={(swiper) => console.log(swiper)}
+            >
+            {UpFestDets.map((val,key) => {
+               console.log(UpFestDets.length);
+               if(UpFestDets.length!==1)
+               {
+                  console.log(UpFestDets.length);
+                  return (
+                <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} /></SwiperSlide>
+                );
+               }
+               else{
+                  
+                  return(
+                     <p>No Data Found</p>
+                  )
+               }
+                })}
+            </Swiper> 
+            </div>
+         </div>
+         <div className="view_previous_fest">
+            <div className='fest-text'>View Previous Projects </div>
+            <div className='fest-card'>
+            <Swiper
+                spaceBetween={50}
+                slidesPerView={3}
+                onSlideChange={() => console.log('slide change')}
+                onSwiper={(swiper) => console.log(swiper)}
+            >
+            {FestDets.map((val,key) => {
+            return (
+                <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} /></SwiperSlide>
+                );
+                })} 
+            </Swiper> 
+            </div>
+         </div>
+         <div className="view_previous_fest">
+            <div className='fest-text'>View Upcoming Projects </div>
             <div className='fest-card'>
             <Swiper
                 spaceBetween={50}

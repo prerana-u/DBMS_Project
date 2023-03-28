@@ -3,7 +3,12 @@ import './CSS/register.css';
 import Axios from 'axios';
 import students from './Images/students.png';
 import { useNavigate } from "react-router-dom";
+import { createClient } from "@supabase/supabase-js";
+
+
+
 function StudentReg() {
+   const supabase = createClient("https://npropcvowslhzxxaigvi.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wcm9wY3Zvd3NsaHp4eGFpZ3ZpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3OTM5OTg3NywiZXhwIjoxOTk0OTc1ODc3fQ.iJ_vCpYUyRFEIP3ZgfYVZvXaQoAHLK7OtierGGpasOA");
     const [emailReg, setemailReg] = useState("");
     const [passwordReg, setPasswordReg] = useState ("");
     const [namereg, setnameReg] = useState ("");
@@ -13,6 +18,7 @@ function StudentReg() {
     const [semreg, setsemReg] = useState ("");
     const [classreg, setclassReg] = useState ("");
     const navigate=useNavigate();
+
     const register1 = (event) => {
       event.preventDefault();
        Axios.post("http://localhost:3001/register", {
@@ -30,6 +36,21 @@ function StudentReg() {
         });
       };
  
+      async function upload(event) 
+      {
+         console.log(namereg);
+         const avatarFile = event.target.files[0]
+         const { data, error } = await supabase
+         .storage
+         .from('pictures')
+         .upload('public/'+namereg+'.png', avatarFile, {
+            cacheControl: '3600',
+            upsert: true
+         })
+         console.log("hello");
+      }
+
+  
  
     return (
 
@@ -102,7 +123,9 @@ function StudentReg() {
             <input type="tel" required onChange={(e) =>{
                setphReg(e.target.value);
             }}/> <br />
-            
+            <label>Choose a Profile Photo:  </label>
+            <input type="file" id="myfile" name="myfile" onChange={(e)=>(upload(e))}></input>
+            <br></br>
             <button onClick={(e)=>register1(e)} id="regbtn"> Register</button>
             </div>
             </form>
