@@ -1,37 +1,33 @@
 import React from 'react'
 import './CSS/nav.css';
-import navbarimg from './Images/navbarimg.png';
+
 import sflogo from './Images/sflogo.png';
-import { Link } from 'react-router-dom';
+
 import { createClient } from "@supabase/supabase-js";
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Verticalnav = (props)=> {
   console.log(props.role);
- const [uname,setUname]=useState("");
-
+  const [uname,setUname]=useState("");
+  const [nlink,setnlink]=useState("");
   const supabase = createClient("https://npropcvowslhzxxaigvi.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wcm9wY3Zvd3NsaHp4eGFpZ3ZpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3OTM5OTg3NywiZXhwIjoxOTk0OTc1ODc3fQ.iJ_vCpYUyRFEIP3ZgfYVZvXaQoAHLK7OtierGGpasOA");
-	
- async function fetchdata()
+
+
+  function fetchdata()
  {
     if(props.role==="teacher")
     {
       setUname(sessionStorage.teacherName);
+      setnlink("/td");
       console.log(uname);
     }
     else
     {
       setUname(sessionStorage.studentName);
+      setnlink("/studentdash");
     }
-    if(props.cpage==="dashboard")
-    {
-      document.getElementsByName("dashboard").className="active";
-      console.log(document.getElementsByName("dashboard").className);
-      console.log("Dashboard");
-    }
-    else{
-      console.log(props.cpage);
-    }
+
 
     
  }
@@ -56,23 +52,23 @@ const Verticalnav = (props)=> {
          <div className="nav1">
          <ul>
             <li>
-            <Link to="/td" name="dashboard"  className="idle" id="link"><b><i className="fa fa-user" style={{color: "#FFF"}}></i>  Dashboard</b></Link>
+            <NavLink to={nlink} name="dashboard" activeClassname='active' id="link"><b><i className="fa fa-user" style={{color: "#FFF"}}></i>  Dashboard</b></NavLink>
             </li>
             <br/>
             <li>
-            <Link to="/"  name="home" className="idle" id="link"><b><i className="fa fa-home"></i>  Home</b></Link>
+            <NavLink to="/"  name="home" activeClassname='active' id="link"><b><i className="fa fa-home"></i>  Home</b></NavLink>
             </li>
             <br/>
             <li>
-            <Link to="/" name="about" className="idle" id="link"><b><i className="fa fa-info-circle"></i>  About</b></Link>
+            <NavLink to="/" name="about" activeClassname='active' id="link"><b><i className="fa fa-info-circle"></i>  About</b></NavLink>
             </li>
             <br/>
             <li>
-            <Link to="/search" className="idle" name="search" id="link"><b><i className="fa fa-search"></i>  Search</b></Link>
+            <NavLink to="/search" activeClassname='active' name="search" id="link"><b><i className="fa fa-search"></i>  Search</b></NavLink>
             </li>
             <br/>
             <li>
-            <Link to="/login" className="idle" id="link"><b><i className="fa fa-sign-out"></i>  Logout</b></Link>
+            <NavLink to="/login"  id="link"><b><i className="fa fa-sign-out"></i>  Logout</b></NavLink>
             </li>
          
          </ul>

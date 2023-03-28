@@ -8,6 +8,7 @@ import SkillForm from './Components/SkillForm';
 import SearchBar from './Components/SearchBar';
 import TeachDash from './Components/Teacher_Dash';
 import StudentDash from './Components/Student_Dash';
+import FestReg from './Components/FestReg';
 
 function App() {
  
@@ -25,6 +26,7 @@ function App() {
         <Route path="td" element={<TeachDash />} />
         <Route path="studentdash" element={<StudentDash />} />
         <Route path="search" element={<SearchBar />} />
+        <Route path="festreg" element={<FestReg/>}/>
        
 
     </Routes>

@@ -227,22 +227,39 @@ app.post('/setskills', (req, res)=> {
   );
 });
 
-app.get('/preview_fest', (req, res) => {
+    app.get('/preview_fest', (req, res) => {
 
 
-  db.execute(
-      "SELECT fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start FROM fest",
-      (err, result)=> {
-          if (err) {
-              res.send({err: err});
-          }
-          if (result.length > 0) {
-              console.log(result);
-              res.send(result);
-              }else(res.send({message: "No data found"}));
-          }
-     )
+      db.execute(
+          "SELECT fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start FROM fest where sdate <= CURDATE();",
+          (err, result)=> {
+              if (err) {
+                  res.send({err: err});
+              }
+              if (result.length > 0) {
+                  console.log(result);
+                  res.send(result);
+                  }else(res.send({message: "No data found"}));
+              }
+        )
       });
+
+      app.get('/upcoming_fest', (req, res) => {
+
+
+        db.execute(
+            "SELECT fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start FROM fest where sdate >= CURDATE();",
+            (err, result)=> {
+                if (err) {
+                    res.send({err: err});
+                }
+                if (result.length > 0) {
+                    console.log(result);
+                    res.send(result);
+                    }else(res.send({fname: "No data found"}));
+                }
+           )
+            });
 
       app.post('/multicard', (req, res)=> {
           const name = req.body.name;
