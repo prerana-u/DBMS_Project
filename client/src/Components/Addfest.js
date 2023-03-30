@@ -11,7 +11,7 @@ import cardimg from './Images/fest1.png';
 
 const AddFest = () => {
     return(
-    <Card sx={{ maxWidth: "490px", height: "311px", backgroundImage:`url(${cardimg})` , maskRepeat: 'no-repeat' , backgroundSize: 'cover', marginTop: "5%",marginLeft: "5%",borderRadius:"6%",filter:"black",opacity:"90%"}} id="#card">
+    <Card sx={{ maxWidth: "480px", height: "300px", backgroundImage:`url(${cardimg})` , maskRepeat: 'no-repeat' , backgroundSize: 'cover', marginTop: "2%",marginLeft: "7%",borderRadius:"6%",filter:"black",opacity:"90%"}} id="#card">
     <CardActionArea sx={{}}>
       <CardContent>
         <Popup1 />

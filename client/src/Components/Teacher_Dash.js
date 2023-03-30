@@ -31,8 +31,7 @@ function TeachDash(props) {
       }).then((response) => {
          sessionStorage.teacherName=response.data[0].name;
          setTName(response.data[0].name);
-         console.log(response);
-         console.log(response.data);
+     
     })
     };
 
@@ -42,23 +41,31 @@ function TeachDash(props) {
         axios.get("http://localhost:3001/preview_fest", {
       
         }).then((response) => {
-           setFestDets(response.data);
-           console.log(response.data);
+         if(response.data.length>0)
+         {
+            setFestDets(response.data);
+           // console.log(FestDets);
+         }
+        else{
+           setFestDets(["No Data"]);
+          // console.log(FestDets);
+        }
+         //console.log(response.data);
       })
       axios.get("http://localhost:3001/upcoming_fest", {
       
         }).then((response) => {
-            if(response.length>0)
+            if(response.data.length>0)
             {
                setUpFestDets(response.data);
             }
            else{
-            setUpFestDets([""]);
+              setUpFestDets(["No Data"]);
            }
            
-           console.log(response.data);
+          // console.log(response.data);
       })
-    }, []);
+    }, [FestDets]);
 
 
  return (
@@ -84,16 +91,29 @@ function TeachDash(props) {
                 spaceBetween={50}
                 slidesPerView={3}
                 onSlideChange={() => console.log('slide change')}
-                onSwiper={(swiper) => console.log(swiper)}
+                onSwiper={()=>{}}
+                className="swiper1"
             >
             {FestDets.map((val,key) => {
-            return (
-                <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} /></SwiperSlide>
-                );
+              // console.log(FestDets[0]);
+              if(FestDets[0]!=="No Data")
+              {
+              
+                 return (
+               <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} end={val.end} /></SwiperSlide>
+               );
+              }
+              else{
+                 
+                 return(
+                    <p>No Data Found</p>
+                 )
+              }
                 })} 
             </Swiper> 
             </div>
          </div>
+         <br></br>
          <div className="view_previous_fest">
             <div className='fest-text'>View Upcoming Fests </div>
             <div className='fest-card'>
@@ -101,15 +121,16 @@ function TeachDash(props) {
                 spaceBetween={50}
                 slidesPerView={3}
                 onSlideChange={() => console.log('slide change')}
-                onSwiper={(swiper) => console.log(swiper)}
+                onSwiper={() => {}}
+                className="swiper1"
             >
             {UpFestDets.map((val,key) => {
-               console.log(UpFestDets.length);
-               if(UpFestDets.length!==1)
+              
+               if(UpFestDets[0]!=="No Data")
                {
-                  console.log(UpFestDets.length);
+                 
                   return (
-                <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} /></SwiperSlide>
+                <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} end={val.end} /></SwiperSlide>
                 );
                }
                else{
@@ -129,11 +150,12 @@ function TeachDash(props) {
                 spaceBetween={50}
                 slidesPerView={3}
                 onSlideChange={() => console.log('slide change')}
-                onSwiper={(swiper) => console.log(swiper)}
+                onSwiper={() => {}}
+                className="swiper1"
             >
             {FestDets.map((val,key) => {
             return (
-                <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} /></SwiperSlide>
+                <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} end={val.end}/></SwiperSlide>
                 );
                 })} 
             </Swiper> 
@@ -146,11 +168,12 @@ function TeachDash(props) {
                 spaceBetween={50}
                 slidesPerView={3}
                 onSlideChange={() => console.log('slide change')}
-                onSwiper={(swiper) => console.log(swiper)}
+                onSwiper={() => {}}
+                className="swiper1"
             >
             {FestDets.map((val,key) => {
             return (
-                <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} /></SwiperSlide>
+                <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} end={val.end}/></SwiperSlide>
                 );
                 })} 
             </Swiper> 

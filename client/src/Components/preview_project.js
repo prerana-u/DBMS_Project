@@ -8,7 +8,7 @@ import cardimg from './Images/fest1.png';
 
 import './CSS/multicard.css';
 
-const preview_festcard = (props) => {
+const preview_project = (props) => {
     return(
     <Card sx={{ maxWidth: "390px", height: "311px", backgroundColor: "white",MozBoxShadow:"0 0 5px #ccc",WebkitBoxShadow:"0 0 3px #ccc",boxShadow:"0 0 3px #ccc", marginTop: "5%",marginLeft: "2%"}} id="#card">
    <CardActionArea>
@@ -38,4 +38,4 @@ const preview_festcard = (props) => {
   </Card>
     );
 }
-export default preview_festcard;
+export default preview_project;
