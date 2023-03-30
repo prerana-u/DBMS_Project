@@ -159,7 +159,7 @@ app.get('/teachdata', (req, res)=> {
 app.get('/studata', (req, res)=> {
   console.log("Hi"+sessions.email);
   db.execute(
-    "Select name from student where email=?",
+    "Select name,semester,class,dep,regno from student where email=?",
     [sessions.email],
     (err, result)=> {
     //console.log(err);
@@ -227,17 +227,19 @@ app.post('/setskills', (req, res)=> {
   );
 });
 
+
+
     app.get('/preview_fest', (req, res) => {
 
 
       db.execute(
-          "SELECT fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start FROM fest where sdate <= CURDATE();",
+          "SELECT fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start,DATE_FORMAT(edate,'%d-%m-%y') as end FROM fest where sdate <= CURDATE();",
           (err, result)=> {
               if (err) {
                   res.send({err: err});
               }
               if (result.length > 0) {
-                  console.log(result);
+                
                   res.send(result);
                   }else(res.send({message: "No data found"}));
               }
@@ -248,13 +250,13 @@ app.post('/setskills', (req, res)=> {
 
 
         db.execute(
-            "SELECT fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start FROM fest where sdate >= CURDATE();",
+            "SELECT fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start, DATE_FORMAT(edate,'%d-%m-%y') as end FROM fest where sdate >= CURDATE();",
             (err, result)=> {
                 if (err) {
                     res.send({err: err});
                 }
                 if (result.length > 0) {
-                    console.log(result);
+                  // console.log(result);
                     res.send(result);
                     }else(res.send({fname: "No data found"}));
                 }
@@ -269,9 +271,15 @@ app.post('/setskills', (req, res)=> {
           const enddate = req.body.enddate_1;
           const description = req.body.Description;
           const type = req.body.Type;
+          const event1=req.body.event1;
+          const event2=req.body.event2;
+          const event3=req.body.event3;
+          const event4=req.body.event4;
+          const event5=req.body.event5;
+          console.log(event1, event2,event3,event4,event5 );
           db.execute(
-            "INSERT INTO fest (fname,org,mode,sdate,edate,fdesc,type) VALUES (?,?,?,?,?,?,?)",
-            [name,organization,mode,startdate,enddate,description,type],
+            "INSERT INTO fest (fname,org,mode,sdate,edate,fdesc,type,event1,event2,event3,event4,event5) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+            [name,organization,mode,startdate,enddate,description,type,event1,event2,event3,event4,event5],
             (err, result)=> {
               if (err) {
                   res.send({err: err});

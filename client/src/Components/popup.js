@@ -2,8 +2,7 @@ import React,{useState} from 'react';
 import Popup from 'reactjs-popup';
 import './CSS/popup.css';
 import axios from 'axios';
-import { Button } from '@mui/material';
-import Alert from '@mui/material/Alert';
+
 export default function Popup1() {
         const [name, setname] = useState("");
         const [org, setorg] = useState ("");
@@ -12,13 +11,17 @@ export default function Popup1() {
         const [enddate, setenddate] = useState("");
         const [description, setdescription] = useState ("");
         const [type, settype] = useState ("");
-        const [DevSkills, setDevSkills] = useState([
-            { event:'Enter Event'}
-          ])
+        const [events1,setEvents1]=useState("None");
+        const [events2,setEvents2]=useState("None");
+        const [events3,setEvents3]=useState("None");
+        const [events4,setEvents4]=useState("None");
+        const [events5,setEvents5]=useState("None");
         
-        const [isClicked, setIsClicked] = useState(1);
-        const popupform = () => {
-         
+    
+
+        const popupform = (e) => {
+           
+           
            axios.post("http://localhost:3001/multicard", {
              name: name,
              organization: org,
@@ -27,6 +30,13 @@ export default function Popup1() {
              enddate_1: enddate,
              Description: description,
              Type: type,
+             event1:events1,
+             event2:events2,
+             event3:events3,
+             event4:events4,
+             event5:events5,
+        
+
             }).then((response) => {
                console.log(response);
         });
@@ -35,36 +45,39 @@ export default function Popup1() {
 
 
   //functions
-  const removeFields = (index) => {
-    let data = [...DevSkills];
-    data.splice(index, 1)
-    setDevSkills(data)
-    setIsClicked(isClicked-1)
-    document.getElementById('alert1').style.display = 'none';
-  }
-  const addFields = (index) => {
-    let data = [...DevSkills];
+//   const removeFields = (index) => {
+//     let data = [...EventNames];
+//     data.splice(index, 1)
+//     setEventNames(data)
+//     setIsClicked(isClicked-1)
+//     document.getElementById('alert1').style.display = 'none';
+//   }
+//   const addFields = (index) => {
+//     let data = [...EventNames];
    
-    data.splice(index, 1)
-    if(isClicked>4)
-    document.getElementById('alert').style.display = 'inline-block';
-    else{
-      let newfield = { skill:'Enter Skill'}
+//     data.splice(index, 1)
+//     if(isClicked>4)
+//     document.getElementById('alert').style.display = 'inline-block';
+//     else{
+//       let newfield = { events:'None'}
 
-      setDevSkills([...DevSkills, newfield])
-      setIsClicked(isClicked+1)
-      console.log(isClicked)
-    }
+//       setEventNames([...EventNames, newfield])
+//       setIsClicked(isClicked+1)
+//       console.log(isClicked)
+//     }
     
    
-  }
-  const handleFormChange = (index,event) => {
-    let data = [...DevSkills];
-    data[index][event.target.name] = event.target.value;
-    setDevSkills(data);
+//   }
+//   const handleFormChange = (index,event) => {
+//     let data = [...EventNames];
+//     data[index][event.target.name] = event.target.value;
+    
+//     setEventNames(data);
    
-    //console.log(DevSkills[index]);
-  }
+//     console.log(EventNames);
+    
+//   }
+
     return (
      
         <div>
@@ -117,28 +130,20 @@ export default function Popup1() {
                                         <legend>Event Details</legend>
                                     <br/>
                                     <div >
-                                    {DevSkills.map((input, index) => {
-                                        const label="Event Name "+(index+1).toString()
-
-                                        return (
-                                    <div style={{marginTop:'10px',float:'left'}} key={index}>
-                                        <div style={{float:'left', width:'300px'}}>
-                                        <label>{label}</label>
-                                        <input type="text"  className="inputfields" onChange={(e) => {handleFormChange(index,e);}}/>
-                                        </div>
-                                        <div style={{ marginTop:'32px',marginLeft:'20px', float:'right'}}>
-                                        <Button variant="outlined" onClick={(event) => addFields(index)} >+</Button>
-                                        <Button variant="outlined"  onClick={() => removeFields(index)} style={{marginLeft:'20px'}}>-</Button>
-                                        </div>
-
-                                        </div>
-                                        )
-                                        })}
+                                    <label>Event 1</label>
+                                    <input type="text"  className="inputfields"  id="events1" name="events" onChange={(e) => {setEvents1(e.target.value);}}/>
+                                    <label>Event 2</label>
+                                    <input type="text"  className="inputfields"  id="events2" name="events" onChange={(e) => {setEvents2(e.target.value);}}/>
+                                    <label>Event 3</label>
+                                    <input type="text"  className="inputfields"  id="events3" name="events" onChange={(e) => {setEvents3(e.target.value);}}/>
+                                    <label>Event 4</label>
+                                    <input type="text"  className="inputfields"  id="events4" name="events" onChange={(e) => {setEvents4(e.target.value);}}/>
+                                    <label>Event 5</label>
+                                    <input type="text"  className="inputfields"  id="events5" name="events" onChange={(e) => {setEvents5(e.target.value);}} />
+                                   
                                     </div>
                                     <br/>
-                                    <div style={{width:'400px',height:'30px',display:'none',float:'left',marginTop:'20px', marginBottom:'20px'}} id="alert">
-                                    <Alert severity="error">Max 5 Skills!</Alert>
-                                    </div>
+                                
                                   
                                     </fieldset>
                                     <br/>
@@ -147,7 +152,7 @@ export default function Popup1() {
                                         <input type="file" id="myfile" name="myfile" ></input>
                                         
                                     </div>
-                                    <input type="submit" value="Submit" onClick={popupform}/>
+                                    <input type="submit" value="Submit" onClick={(e)=>{popupform(e)}}/>
                                 </form>
                             </div>
                         </div>

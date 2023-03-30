@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 const Verticalnav = (props)=> {
-  console.log(props.role);
+  //console.log(props.role);
   const [uname,setUname]=useState("");
   const [nlink,setnlink]=useState("");
   const supabase = createClient("https://npropcvowslhzxxaigvi.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wcm9wY3Zvd3NsaHp4eGFpZ3ZpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3OTM5OTg3NywiZXhwIjoxOTk0OTc1ODc3fQ.iJ_vCpYUyRFEIP3ZgfYVZvXaQoAHLK7OtierGGpasOA");
@@ -20,12 +20,14 @@ const Verticalnav = (props)=> {
     {
       setUname(sessionStorage.teacherName);
       setnlink("/td");
-      console.log(uname);
+
+      //console.log(uname);
     }
     else
     {
       setUname(sessionStorage.studentName);
       setnlink("/studentdash");
+      document.getElementById("search").style.display="none";
     }
 
 
@@ -36,7 +38,7 @@ const Verticalnav = (props)=> {
  .storage
  .from('pictures')
  .getPublicUrl('public/'+uname+'.png')
- console.log(data.publicUrl);
+ //console.log(data.publicUrl);
 
 
 
@@ -64,7 +66,7 @@ const Verticalnav = (props)=> {
             </li>
             <br/>
             <li>
-            <NavLink to="/search" activeClassname='active' name="search" id="link"><b><i className="fa fa-search"></i>  Search</b></NavLink>
+            <NavLink to="/search" activeClassname='active'  name="search" id="search"><b><i className="fa fa-search"></i>  Search</b></NavLink>
             </li>
             <br/>
             <li>
