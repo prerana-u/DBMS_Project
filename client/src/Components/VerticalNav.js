@@ -47,7 +47,7 @@ const Verticalnav = (props)=> {
  
   
   return (
-    <div className='VNavContainer' onLoad={fetchdata}>
+    <div className='VNavContainer' onLoad={()=>{fetchdata()}}>
       <nav className='vnav'>
          <div className="profile">
           <div className='logo1'><img src={sflogo} alt="navimg" /></div>
