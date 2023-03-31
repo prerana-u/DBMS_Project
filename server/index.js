@@ -147,7 +147,7 @@ const db = mysql.createConnection({
 });
 app.get('/teachdata', (req, res)=> {
   db.execute(
-    "Select name from teacher where email=?",
+    "Select tid,name from teacher where email=?",
     [sessions.teach_email],
     (err, result)=> {
     //console.log(err);
@@ -256,14 +256,14 @@ app.post('/setskills', (req, res)=> {
 
     app.get('/preview_fest', (req, res) => {
 
-
+      const tid=req.query.tid;
       db.execute(
-          "SELECT fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start,DATE_FORMAT(edate,'%d-%m-%y') as end FROM fest where sdate <= CURDATE();",
+          "SELECT fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start,DATE_FORMAT(edate,'%d-%m-%y') as end FROM fest where sdate <= CURDATE() and tid="+tid,
           (err, result)=> {
               if (err) {
                   res.send({err: err});
               }
-              if (result.length > 0) {
+              if (result) {
                 
                   res.send(result);
                   }else(res.send({message: "No data found"}));
@@ -273,9 +273,46 @@ app.post('/setskills', (req, res)=> {
 
       app.get('/upcoming_fest', (req, res) => {
 
-
+        const tid=req.query.tid;
+      
         db.execute(
-            "SELECT fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start, DATE_FORMAT(edate,'%d-%m-%y') as end FROM fest where sdate >= CURDATE();",
+            "SELECT fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start, DATE_FORMAT(edate,'%d-%m-%y') as end FROM fest where sdate >= CURDATE() and tid="+tid,
+            (err, result)=> {
+                if (err) {
+                    res.send({err: err});
+                }
+                if (result) {
+                  // console.log(result);
+                    res.send(result);
+                    }else(res.send({fname: "No data found"}));
+                }
+           )
+            });
+
+            
+    app.get('/preview_proj', (req, res) => {
+
+      const tid=req.query.tid;
+      db.execute(
+          "SELECT pname,duration,skill1,DATE_FORMAT(sdate,'%d-%m-%y') as start FROM project where sdate <= CURDATE() and tid="+tid,
+          (err, result)=> {
+              if (err) {
+                  console.log(err);
+              }
+              if (result) {
+                
+                  res.send(result);
+                  }else(res.send({message: "No data found"}));
+              }
+        )
+      });
+
+      app.get('/upcoming_proj', (req, res) => {
+
+        const tid=req.query.tid;
+      
+        db.execute(
+            "SELECT pname,duration,skill1,DATE_FORMAT(sdate,'%d-%m-%y') as start FROM project where sdate >= CURDATE() and tid="+tid,
             (err, result)=> {
                 if (err) {
                     res.send({err: err});
@@ -290,7 +327,7 @@ app.post('/setskills', (req, res)=> {
 
             app.get('/get_eventlist', (req, res) => {
               const fid = req.query.fid;
-              console.log(fid);
+             // console.log(fid);
             
                 db.execute(
                       "Select event1,event2,event3,event4,event5 from fest where fid="+fid,
@@ -316,10 +353,11 @@ app.post('/setskills', (req, res)=> {
           const event3=req.body.event3;
           const event4=req.body.event4;
           const event5=req.body.event5;
+          const tid=req.body.tid;
           console.log(event1, event2,event3,event4,event5 );
           db.execute(
-            "INSERT INTO fest (fname,org,mode,sdate,edate,fdesc,type,event1,event2,event3,event4,event5) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
-            [name,organization,mode,startdate,enddate,description,type,event1,event2,event3,event4,event5],
+            "INSERT INTO fest (fname,org,mode,sdate,edate,fdesc,type,event1,event2,event3,event4,event5,tid) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            [name,organization,mode,startdate,enddate,description,type,event1,event2,event3,event4,event5,tid],
             (err, result)=> {
               if (err) {
                   res.send({err: err});
@@ -337,9 +375,10 @@ app.post('/setskills', (req, res)=> {
           const required= req.body.Required;
           const duration = req.body.duration;
           const startdate = req.body.startdate_1;
+          const tid=req.body.tid;
           db.execute(
-            "INSERT INTO project (pname,duration,skill1,sdate) VALUES (?,?,?,?)",
-            [name,duration,required,startdate],
+            "INSERT INTO project (pname,duration,skill1,sdate,tid) VALUES (?,?,?,?,?)",
+            [name,duration,required,startdate,tid],
             (err, result)=> {
               if (err) {
                   res.send({err: err});

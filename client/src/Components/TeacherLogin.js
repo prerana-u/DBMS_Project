@@ -25,6 +25,7 @@ function TeacherLogin() {
             setLoginStatus(true);
             console.log(response);
             sessionStorage.setItem("teacher_email",email);
+            sessionStorage.setItem("tid",response.data[0].tid);
             navigate('/td');
            } else {
             setLoginStatus(false);

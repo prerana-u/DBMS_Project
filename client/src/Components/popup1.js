@@ -16,6 +16,7 @@ export default function Popup1() {
              Required: required,
              startdate_1 : startdate,
              duration: Duration,
+             tid:sessionStorage.getItem("tid"),
             }).then((response) => {
                console.log(response);
                

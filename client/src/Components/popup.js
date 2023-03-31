@@ -30,11 +30,13 @@ export default function Popup1() {
              enddate_1: enddate,
              Description: description,
              Type: type,
+           
              event1:events1,
              event2:events2,
              event3:events3,
              event4:events4,
              event5:events5,
+             tid:sessionStorage.getItem("tid"),
         
 
             }).then((response) => {

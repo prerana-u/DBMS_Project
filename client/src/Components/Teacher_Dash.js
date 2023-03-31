@@ -13,7 +13,8 @@ import "swiper/css/scrollbar";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 //import Preview from './component/preview_festcard';
-
+import nodataicon from "./Images/Circle.json";
+import lottie from "lottie-web";
 import headimg from './Images/headimg.png';
 //import Popup from 'reactjs-popup';
 //import axios from 'axios';
@@ -30,6 +31,7 @@ function TeachDash(props) {
     
       }).then((response) => {
          sessionStorage.teacherName=response.data[0].name;
+     
          setTName(response.data[0].name);
      
     })
@@ -37,9 +39,12 @@ function TeachDash(props) {
 
     const [FestDets, setFestDets] = useState([]);
     const [UpFestDets, setUpFestDets] = useState([]);
+    const [ProjDets, setProjDets] = useState([]);
+    const [UpProjDets, setUpProjDets] = useState([]);
+
     useEffect(() => { 
         axios.get("http://localhost:3001/preview_fest", {
-      
+       params:{tid:sessionStorage.getItem("tid")}
         }).then((response) => {
          if(response.data.length>0)
          {
@@ -52,8 +57,12 @@ function TeachDash(props) {
         }
          //console.log(response.data);
       })
+   
+    }, [FestDets]);
+
+    useEffect(() => { 
       axios.get("http://localhost:3001/upcoming_fest", {
-      
+         params:{tid:sessionStorage.getItem("tid")}
         }).then((response) => {
             if(response.data.length>0)
             {
@@ -65,8 +74,53 @@ function TeachDash(props) {
            
           // console.log(response.data);
       })
-    }, [FestDets]);
+ 
+  }, [UpFestDets]);
 
+  
+  useEffect(() => { 
+   axios.get("http://localhost:3001/preview_proj", {
+  params:{tid:sessionStorage.getItem("tid")}
+   }).then((response) => {
+    if(response.data.length>0)
+    {
+       setProjDets(response.data);
+      
+    }
+   else{
+      setProjDets(["No Data"]);
+     // console.log(FestDets);
+   }
+    //console.log(response.data);
+ })
+
+   }, [ProjDets]);
+
+   useEffect(() => { 
+      axios.get("http://localhost:3001/upcoming_proj", {
+     params:{tid:sessionStorage.getItem("tid")}
+      }).then((response) => {
+       if(response.data.length>0)
+       {
+          setUpProjDets(response.data);
+         
+       }
+      else{
+         setUpProjDets(["No Data"]);
+        // console.log(FestDets);
+      }
+       //console.log(response.data);
+    })
+   
+      }, [UpProjDets]);
+
+    useEffect(() => {
+   
+      lottie.loadAnimation({
+          container: document.querySelector("#react-logo1"),
+          animationData: nodataicon,
+        });
+    }, []);
 
  return (
     <div onLoad={fetchdata}>
@@ -136,7 +190,8 @@ function TeachDash(props) {
                else{
                   
                   return(
-                     <p>No Data Found</p>
+                     
+                     <div id="react-logo1" style={{ width: 350, height: 350, marginLeft:'35%',marginTop:'-350px' }} />
                   )
                }
                 })}
@@ -153,9 +208,9 @@ function TeachDash(props) {
                 onSwiper={() => {}}
                 className="swiper1"
             >
-            {FestDets.map((val,key) => {
+            {ProjDets.map((val,key) => {
             return (
-                <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} end={val.end}/></SwiperSlide>
+                <SwiperSlide key={key}><Preview name={val.pname} org={val.skill1} start={val.start} /></SwiperSlide>
                 );
                 })} 
             </Swiper> 
@@ -171,9 +226,9 @@ function TeachDash(props) {
                 onSwiper={() => {}}
                 className="swiper1"
             >
-            {FestDets.map((val,key) => {
+            {UpProjDets.map((val,key) => {
             return (
-                <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} end={val.end}/></SwiperSlide>
+                <SwiperSlide key={key}><Preview name={val.pname} org={val.skill1} start={val.start}/></SwiperSlide>
                 );
                 })} 
             </Swiper> 
