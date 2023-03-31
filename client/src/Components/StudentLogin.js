@@ -27,6 +27,7 @@ function StudentLogin() {
               console.log(response);
               setLoginStatus(true);
               sessionStorage.setItem("email",email);
+             
               navigate('/studentdash');
             
            } else {

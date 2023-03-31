@@ -126,14 +126,15 @@ const db = mysql.createConnection({
    });
    app.get('/festdata', (req, res)=> {
     db.execute(
-      "Select fid,fname,fdesc from fest",
+      "Select fid,fname,fdesc from fest  where sdate >= CURDATE()",
       (err, result)=> {
-      //console.log(err);
-      //console.log(result);
+      console.log(err);
+      console.log(result);
       res.send(result);
       }
     );
  });
+
  app.get('/projdata', (req, res)=> {
   db.execute(
     "Select pid,pname,skill1 from project",
@@ -193,6 +194,30 @@ app.get('/getskills', (req, res) => {
         
           (err, result)=> {
           //console.log(err);
+          console.log(result);
+          res.send(result);
+          }
+        );
+  });
+
+  app.get('/getskill_studentdash', (req, res) => {
+    db.execute(
+          "Select adv_skill1,adv_skill2,adv_skill3,int_skill1,int_skill2,int_skill3,newskill1,newskill2,newskill3 from student where email=?",
+          [sessions.email],
+          (err, result)=> {
+          //console.log(err);
+          console.log(result);
+          res.send(result);
+          }
+        );
+  });
+  app.get('/get_reg_fest', (req, res) => {
+    const regno=req.query.regno;
+    db.execute(
+          "SELECT distinct f.fid,f.fname,f.fdesc from fest f, reg_fests r where f.fid=r.festid and r.regno="+regno,
+          
+          (err, result)=> {
+          console.log(err);
           console.log(result);
           res.send(result);
           }
@@ -263,6 +288,21 @@ app.post('/setskills', (req, res)=> {
            )
             });
 
+            app.get('/get_eventlist', (req, res) => {
+              const fid = req.query.fid;
+              console.log(fid);
+            
+                db.execute(
+                      "Select event1,event2,event3,event4,event5 from fest where fid="+fid,
+                    
+                      (err, result)=> {
+                      //console.log(err);
+                      console.log(result);
+                      res.send(result);
+                      }
+                    );
+              });
+
       app.post('/multicard', (req, res)=> {
           const name = req.body.name;
           const organization= req.body.organization;
@@ -311,6 +351,25 @@ app.post('/setskills', (req, res)=> {
           }
           );
       });
+
+      app.post('/register_event', (req, res)=> {
+       const fid=req.body.fid;
+       const eventname=req.body.eventname;
+       const regno= req.body.regno;
+        db.execute(
+          "INSERT INTO reg_fests values(?,?,?)",
+          [fid, eventname, regno],
+          (err, result)=> {
+            if (err) {
+                console.log(err);
+            }
+    
+            if (result.length > 0) {
+                res.send(result);
+                }else(res.send({message: "Error!"}));
+        }
+        );
+    });
   
 
 app.listen(3001, () => {

@@ -27,7 +27,9 @@ const Verticalnav = (props)=> {
     {
       setUname(sessionStorage.studentName);
       setnlink("/studentdash");
-      document.getElementById("search").style.display="none";
+      console.log( document.getElementById("s").value);
+      document.getElementById("s").innerHTML="<b>Edit Skills</b>";
+      document.getElementById('sicon').className="fa fa-pencil";
     }
 
 
@@ -58,6 +60,10 @@ const Verticalnav = (props)=> {
             </li>
             <br/>
             <li>
+            <NavLink to="/search" activeClassname='active'  name="search" id="link"><i id="sicon" className="fa fa-search"></i> <b id="s"> Search</b></NavLink>
+            </li>
+            <br/>
+            <li>
             <NavLink to="/"  name="home" activeClassname='active' id="link"><b><i className="fa fa-home"></i>  Home</b></NavLink>
             </li>
             <br/>
@@ -65,10 +71,7 @@ const Verticalnav = (props)=> {
             <NavLink to="/" name="about" activeClassname='active' id="link"><b><i className="fa fa-info-circle"></i>  About</b></NavLink>
             </li>
             <br/>
-            <li>
-            <NavLink to="/search" activeClassname='active'  name="search" id="search"><b><i className="fa fa-search"></i>  Search</b></NavLink>
-            </li>
-            <br/>
+            
             <li>
             <NavLink to="/login"  id="link"><b><i className="fa fa-sign-out"></i>  Logout</b></NavLink>
             </li>
