@@ -77,6 +77,11 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+  .vnav ul li  #search i{
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
   
   .vnav li .active {
     background-color: #0099FF;

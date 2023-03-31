@@ -17,7 +17,7 @@ function Homepage() {
   Axios.get("http://localhost:3001/festdata", {
 
   }).then((response) => {
-     console.log(response.data);
+    
      setFestDets(response.data);
      if(FestDets.length===2)
      {
@@ -37,11 +37,14 @@ function Homepage() {
   Axios.get("http://localhost:3001/projdata", {
   
 }).then((response) => {
-   console.log(response.data);
+   
    setProjDets(response.data);
-   console.log(ProjDets);
+   
 })
   };
+
+
+
  
   return (
     <div id="a"  onLoad={fetchdata}>
@@ -64,12 +67,12 @@ function Homepage() {
             >
             {FestDets.map((val,key) => {
             return (
-                <SwiperSlide key={key}><MultiActionAreaCard fname={val.fname} fdesc={val.fdesc} /></SwiperSlide>
+                <SwiperSlide key={key}><MultiActionAreaCard fid={val.fid} fname={val.fname} fdesc={val.fdesc} /></SwiperSlide>
                 );
                 })} 
             </Swiper> 
     </div>
-    <h3 id="uptext">Upcoming Projects</h3>
+  {/*}  <h3 id="uptext">Upcoming Projects</h3>
     <div id="up">
     <Swiper
                 spaceBetween={50}
@@ -84,7 +87,7 @@ function Homepage() {
             );
                 })} 
             </Swiper> 
-    </div>
+              </div>-->*/}
     </div>
   );
 }

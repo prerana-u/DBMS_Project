@@ -5,9 +5,13 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import cardimg from './Images/fest1.png';
 
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import { CardActionArea, CardActions } from '@mui/material';
+
+import {Button} from '@mui/material';
+import RegisterPopup from './RegisterPopup';
 
 export default function MultiActionAreaCard(props) {
+
 
   return (
     <Card sx={{ maxWidth: 345 }} >
@@ -29,10 +33,10 @@ export default function MultiActionAreaCard(props) {
         </CardContent>
        
       </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Register
-        </Button>
+      <CardActions >
+          <RegisterPopup fid={props.fid}/>
+          
+       
       </CardActions>
     </Card>
   );

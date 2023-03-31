@@ -21,12 +21,8 @@ import skill from './Images/skill.png';
 import ach from './Images/achievement.png';
 import festspart from './Images/festspart.png';
 import projectpart from './Images/projectpart.png';
-//import { height } from '@mui/system';
-//import Popup from 'reactjs-popup';
-//import axios from 'axios';
-//import {Carousel} from '@trendyol-js/react-carousel';
-
-   
+import nodataicon from "./Images/Circle.json";
+import lottie from "lottie-web";
 
 function Student_Dash() {
         const navigate=useNavigate();
@@ -34,13 +30,21 @@ function Student_Dash() {
         const [sclass, setSclass]=useState("");
         const[ssem,setSsem]=useState("");
         const [sdep, setSdep]=useState("");
+        const [FestDets, setFestDets] = useState([]);
         const [sregno, setSregno]=useState("");
+        const [adv_skills, setAdv_skills] = useState([]);
+        const [int_skills, setInt_skills] = useState([]);
+        const [new_skills, setNew_skills] = useState([]);
         //const [props1,setSkill]=useState([]);
         var arr = [];
         var arr1 = [];
         var arr2 = [];
+
+
         const fetchdata = () => {
-      
+            arr=[];
+            arr1=[];
+            arr2=[];
             axios.get("http://localhost:3001/studata", {
                 
             }).then((response) => {
@@ -50,69 +54,90 @@ function Student_Dash() {
             setSsem(response.data[0].semester);
             setSdep(response.data[0].dep);
             setSregno(response.data[0].regno);
+            sessionStorage.setItem("regno",response.data[0].regno);
             //console.log(response);
             //console.log(response.data);
         })
-        axios.get("http://localhost:3001/getskill", {
-                
-            }).then((response) => {
-            //setSkill(response.data[0]);
-            //console.log(response.data);
+        axios.get("http://localhost:3001/getskill_studentdash", {
+                    
+        }).then((response) => {
+        //setSkill(response.data[0]);
+        //console.log(response.data);
+        //console.log(response.data[0].adv_skill1);
+        if(response.data[0].adv_skill1!=='None' && response.data[0].adv_skill1!=='none')
+        {
             //console.log(response.data[0].adv_skill1);
-            if(response.data[0].adv_skill1!=='None' && response.data[0].adv_skill1!=='none')
-            {
-                console.log(response.data[0].adv_skill1);
-                arr.push(response.data[0].adv_skill1);
-            }
-            if(response.data[0].adv_skill2!=='None' && response.data[0].adv_skill2!=='none')
-            {
-                arr.push(response.data[0].adv_skill2);
-            }
-            if(response.data[0].adv_skill3!=='None' && response.data[0].adv_skill3!=='none')
-            {
-                arr.push(response.data[0].adv_skill3);
-            }
-            if(response.data[0].int_skill1!=='None' && response.data[0].int_skill1!=='none')
-            {
-                arr1.push(response.data[0].int_skill1);
-            }
-            if(response.data[0].int_skill2!=='None' && response.data[0].int_skill2!=='none')
-            {
-                arr1.push(response.data[0].int_skill2);
-            }
-            if(response.data[0].int_skill3!=='None' && response.data[0].int_skill3!=='none')
-            {
-                arr1.push(response.data[0].int_skill3);
-            }
+            arr.push(response.data[0].adv_skill1);
             
-            if(response.data[0].new_skill1!=='None' && response.data[0].new_skill1!=='none')
-            {
-                arr2.push(response.data[0].new_skill1);
-            }
-            if(response.data[0].new_skill2!=='None' && response.data[0].new_skill2!=='none')
-            {
-                arr2.push(response.data[0].new_skill2);
-            }
-            if(response.data[0].new_skill3!=='None' && response.data[0].new_skill3!=='none')
-            {
-                arr2.push(response.data[0].new_skill3);
-            }
-        })
-        console.log(arr2);
-    };
-    const [FestDets, setFestDets] = useState([]);
-    useEffect(() => { 
-        axios.get("http://localhost:3001/preview_fest", {
-      
+        }
+        if(response.data[0].adv_skill2!=='None' && response.data[0].adv_skill2!=='none')
+        {
+            arr.push(response.data[0].adv_skill2);
+        }
+        if(response.data[0].adv_skill3!=='None' && response.data[0].adv_skill3!=='none')
+        {
+            arr.push(response.data[0].adv_skill3);
+        }
+        setAdv_skills(arr);
+        if(response.data[0].int_skill1!=='None' && response.data[0].int_skill1!=='none')
+        {
+            arr1.push(response.data[0].int_skill1);
+        }
+        if(response.data[0].int_skill2!=='None' && response.data[0].int_skill2!=='none')
+        {
+            arr1.push(response.data[0].int_skill2);
+        }
+        if(response.data[0].int_skill3!=='None' && response.data[0].int_skill3!=='none')
+        {
+            arr1.push(response.data[0].int_skill3);
+        }
+        setInt_skills(arr1);
+        if(response.data[0].newskill1!=='None' && response.data[0].newskill1!=='none')
+        {
+            arr2.push(response.data[0].newskill1);
+        }
+        if(response.data[0].newskill2!=='None' && response.data[0].newskill2!=='none')
+        {
+            arr2.push(response.data[0].newskill2);
+        }
+        if(response.data[0].newskill3!=='None' && response.data[0].newskill3!=='none')
+        {
+            arr2.push(response.data[0].newskill3);
+        }
+        setNew_skills(arr2);
+    })
+    console.log(int_skills);
+    console.log(adv_skills);
+    console.log(new_skills);
+
+       
+       // console.log(arr2);
+        axios.get("http://localhost:3001/get_reg_fest", {
+            params: { regno:sessionStorage.getItem('regno') }
         }).then((response) => {
            setFestDets(response.data);
            //console.log(response.data);
       })
-    }, []);
+    };
+
+    useEffect(()=>{
+        fetchdata();
+    },[]);
+
+    useEffect(() => {
+        lottie.loadAnimation({
+          container: document.querySelector("#react-logo"),
+          animationData: nodataicon,
+        });
+        lottie.loadAnimation({
+            container: document.querySelector("#react-logo1"),
+            animationData: nodataicon,
+          });
+      }, []);
 
 
  return (
-   <div onLoad={fetchdata}>
+   <div >
     <Verticalnav/>
       <div className="container">
          <div className="heading_sd">
@@ -129,90 +154,82 @@ function Student_Dash() {
          <div className="content1">
             <div className='content2'>
                <div className='card_sd'>
-                    <div className='content'>
-                        <div className='edit' onClick={()=>{ navigate('/skillform');}}><i className="fa-regular fa-pen-to-square fa-2xl" style={{color: "#196EDA"}}></i></div>
+                    <div className='content' style={{display: "flex", flexDirection:"column", alignItems:"center"}}>
+                        <div className='edit' onClick={()=>{ navigate('/skillform');}}><i className="fa-regular fa-pen-to-square fa-2xl" style={{color: "#196EDA",marginTop:'30px'}}></i></div>
                        <div className='img'><img src={skill} alt="skill"/></div>
+                       <div className="content-text">
+                       <label className='l1'> Your Skill Set 
+                            <hr style={{width:"100%",marginTop:"2%",height:"3px",backgroundColor:'black'}}/>    
+                        </label>
+                        </div>
                        <div className='content-text'>
-                        <label className='l1'> Your Skill Set 
-                            <hr style={{width:"62%",marginTop:"2%",height:"3px",backgroundColor:'black'}}/></label>
+                        
                            <div className='skill'> 
-                            <ol>
-                                <li>Developed Skills:</li>
-                                <ul type="disc">
-                                {arr.map((val,key)=>{
-			                        return(
-				                            <li key={key}>{val}</li>
-			                            );
-		                        })}
-                                </ul>
-                                <li>Intermediate Skills:</li>
-                                <ul type="disc">
-                                {arr1.map((val,key)=>{
-			                        return(
-				                            <li key={key}>{val}</li>
-			                            );
-		                        })}
-                                </ul>
-                                <li>Interested Skills:</li>
-                                <ul type="disc">
-                                {arr2.map((val,key)=>{
-			                        return(
-				                            <li key={key}>{val}</li>
-			                            );
-		                        })}
-                                </ul>
-                            </ol></div>
+                           <div style={{padding:'10px',height:'fit-content',overflow:'hidden',width:'400px'}}>
+                            <div style={{float:'left',alignItems:'center',padding:'5px',width:'150px'}}>Developed Skills: </div>
+                            <div style={{width:'100%'}}>
+                                     <ul type="disc">
+                                        
+                                        {adv_skills.map((val,key)=>{
+                                            
+                                            return(
+                                                    <li key={key}>{val}</li>
+                                                );
+                                        })}
+                                        </ul>
+                            </div>
+                           
+                           </div>
+                           
+                           <div style={{padding:'10px',height:'fit-content',overflow:'hidden',width:'400px'}}>
+                            <div style={{float:'left',alignItems:'center',padding:'5px',width:'150px'}}>Intermediate Skills: </div>
+                            <div style={{}}>
+                                     <ul type="disc">
+                                        
+                                        {int_skills.map((val,key)=>{
+                                            
+                                            return(
+                                                    <li key={key}>{val}</li>
+                                                );
+                                        })}
+                                        </ul>
+                            </div>
+                           
+                           </div>
+                           <div style={{padding:'10px',height:'fit-content',overflow:'hidden',width:'400px'}}>
+                            <div style={{float:'left',alignItems:'center',padding:'5px',width:'150px'}}>Interested Skills: </div>
+                            <div style={{}}>
+                                     <ul type="disc">
+                                        
+                                        {new_skills.map((val,key)=>{
+                                            
+                                            return(
+                                                    <li key={key}>{val}</li>
+                                                );
+                                        })}
+                                        </ul>
+                            </div>
+                          
+                           </div>
+                            </div>
+                          
                         </div>
                     </div>
                </div>
-               <div className='card_sd2'>
+               <div className='card_sd2' style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
                   <div className='content'>
                         <div className='edit'><i className="fa-regular fa-pen-to-square fa-2xl" style={{color: "#196EDA"}}></i></div>
-                       <div className='img'><img src={ach} alt="skill" /></div>
+                       <img src={ach} alt="skill" />
                        <div className='content-text'>
                        <label className='l1'> Your Achievement
-                            <hr style={{width:"83%",marginTop:"2%",height:"3px",backgroundColor:'black'}}/></label>
-                            <div className='Achi'> 
-                            <ol>
-                                <li>Developed Skills:</li>
-                                <ul type="disc">
-                                    <li>HTML</li>
-                                    <li>CSS</li>
-                                </ul>
-                            </ol>
-                            </div>
+                            <hr style={{width:"102%",marginTop:"2%",height:"3px",backgroundColor:'black'}}/>
+                        </label>
+                        <div id="react-logo" style={{ width: '200px', height: '200px', marginLeft:'40px' }}/>
                         </div>
                     </div></div>
             </div>
          </div>
-        <div className="project_worked">
-      
-            <div className='text_data'>
-                <div className='project_img'>
-                <img src={projectpart} alt="skill" />
-                </div>
-                <div className='project_text'>
-                    Projects Worked on 
-                </div>
-            </div>
-            <div className='vl'></div>
-            <div className='fest-card'>
-                <Swiper
-                    spaceBetween={50}
-                    slidesPerView={2}
-                    onSlideChange={() => console.log('slide change')}
-                    onSwiper={(swiper) => console.log(swiper)}
-                    className="swiper1"
-                >
-                    {FestDets.map((val,key) => {
-                        return (
-                            <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} /></SwiperSlide>
-                        );
-                    })} 
-                </Swiper> 
-            </div>
-        </div>
-        <div className="project_worked">
+         <div className="project_worked">
             <div className='text_data'>
                 <div className='project_img'>
                 <img src={festspart} alt="skill"/>
@@ -232,12 +249,41 @@ function Student_Dash() {
                 >
                     {FestDets.map((val,key) => {
                         return (
-                            <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} /></SwiperSlide>
+                            <SwiperSlide key={key}><Preview name={val.fname} org={val.fdesc}  /></SwiperSlide>
                         );
                     })} 
                 </Swiper> 
             </div>
         </div>
+        <div className="project_worked">
+      
+            <div className='text_data'>
+                <div className='project_img'>
+                <img src={projectpart} alt="skill" />
+                </div>
+                <div className='project_text'>
+                    Projects Worked on 
+                </div>
+            </div>
+            <div className='vl'></div>
+            <div className='fest-card'>
+            <div id="react-logo1" style={{ width: 350, height: 350, marginLeft:'100px' }}/>
+              {/*}  <Swiper
+                    spaceBetween={50}
+                    slidesPerView={2}
+                    onSlideChange={() => console.log('slide change')}
+                    onSwiper={(swiper) => console.log(swiper)}
+                    className="swiper1"
+                >
+                    {FestDets.map((val,key) => {
+                        return (
+                            <SwiperSlide key={key}><Preview name={val.fname} org={val.fdesc} start={val.start} /></SwiperSlide>
+                        );
+                    })} 
+                </Swiper> */}
+            </div>
+        </div>
+        
       </div>
    </div>
    
