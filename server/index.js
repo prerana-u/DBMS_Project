@@ -41,8 +41,8 @@ const db = mysql.createConnection({
       "INSERT INTO student (name,regno,email, password,dep,phone,semester,class) VALUES (?,?,?,?,?,?,?,?)",
       [name,regno,email, password,dep,phone,sem,class1],
       (err, result)=> {
-     // console.log(err);
-      //console.log(result);
+      console.log(err);
+      console.log(result);
       res.send(result);
       }
     );
@@ -214,7 +214,7 @@ app.get('/getskills', (req, res) => {
   app.get('/get_reg_fest', (req, res) => {
     const regno=req.query.regno;
     db.execute(
-          "SELECT distinct f.fid,f.fname,f.fdesc from fest f, reg_fests r where f.fid=r.festid and r.regno="+regno,
+          "SELECT distinct f.fid,f.fname,f.org from fest f, reg_fests r where f.fid=r.festid and r.regno="+regno,
           
           (err, result)=> {
           console.log(err);
@@ -409,6 +409,11 @@ app.post('/setskills', (req, res)=> {
         }
         );
     });
+
+    app.get('/student-logout', function (req, res, next) {
+      sessions.email = undefined;
+      res.send('success');
+  });
   
 
 app.listen(3001, () => {

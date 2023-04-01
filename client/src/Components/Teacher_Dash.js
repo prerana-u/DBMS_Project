@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from "react"; 
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Keyboard, Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/scrollbar";
 import "swiper/css/navigation";
@@ -111,16 +112,43 @@ function TeachDash(props) {
       }
        //console.log(response.data);
     })
-   
+    lottie.loadAnimation({
+      container: document.getElementById("react-logo"),
+      renderer: 'svg',
+      loop: false,
+      autoplay: true,
+      // animationData: // local json file,
+      path: 'https://assets5.lottiefiles.com/packages/lf20_mxuufmel.json',
+    });
+    lottie.loadAnimation({
+      container: document.getElementById("react-logo1"),
+      renderer: 'svg',
+      loop: false,
+      autoplay: true,
+      // animationData: // local json file,
+      path: 'https://assets5.lottiefiles.com/packages/lf20_mxuufmel.json',
+    });
+    lottie.loadAnimation({
+      container: document.getElementById("react-logo2"),
+      renderer: 'svg',
+      loop: false,
+      autoplay: true,
+      // animationData: // local json file,
+      path: 'https://assets5.lottiefiles.com/packages/lf20_mxuufmel.json',
+    });
+    lottie.loadAnimation({
+      container: document.getElementById("react-logo3"),
+      renderer: 'svg',
+      loop: false,
+      autoplay: true,
+      // animationData: // local json file,
+      path: 'https://assets5.lottiefiles.com/packages/lf20_mxuufmel.json',
+    });
       }, [UpProjDets]);
 
-    useEffect(() => {
+
+
    
-      lottie.loadAnimation({
-          container: document.querySelector("#react-logo1"),
-          animationData: nodataicon,
-        });
-    }, []);
 
  return (
     <div onLoad={fetchdata}>
@@ -132,8 +160,8 @@ function TeachDash(props) {
                <div className='headimg'><img src={headimg} alt="headimg"/></div>
             </div>
          </div>
-         <div className="content1">
-            <div className='content2'>
+         <div className="main_content">
+            <div className='content_buttons'>
                <div className='card1'><AddFest /></div>
                <div className='card2'><AddProj/></div>
             </div>
@@ -142,10 +170,25 @@ function TeachDash(props) {
             <div className='fest-text'>View Previous Fests </div>
             <div className='fest-card'>
             <Swiper
+               modules={[Keyboard, Navigation, Pagination]}
                 spaceBetween={50}
+                centeredSlides={false}
                 slidesPerView={3}
+                navigation={true}
+                    pagination={{
+                      clickable: true,
+                    }}
+                    keyboard={{
+                        enabled: true,
+                      }}
+                      breakpoints={{
+                        769: {
+                          slidesPerView: 3,
+                          slidesPerGroup: 2,
+                        },
+                      }}
                 onSlideChange={() => console.log('slide change')}
-                onSwiper={()=>{}}
+                onSwiper={(swiper) => console.log(swiper)}
                 className="swiper1"
             >
             {FestDets.map((val,key) => {
@@ -160,7 +203,7 @@ function TeachDash(props) {
               else{
                  
                  return(
-                    <p>No Data Found</p>
+                  <div id="react-logo" key={key} style={{ width: 350, height: 350, marginLeft:'35%',marginTop:'-350px' }} />
                  )
               }
                 })} 
@@ -172,10 +215,25 @@ function TeachDash(props) {
             <div className='fest-text'>View Upcoming Fests </div>
             <div className='fest-card'>
             <Swiper
-                spaceBetween={50}
-                slidesPerView={3}
+                 modules={[Keyboard, Navigation, Pagination]}
+                 spaceBetween={50}
+                 centeredSlides={false}
+                 slidesPerView={3}
+                 navigation={true}
+                     pagination={{
+                       clickable: true,
+                     }}
+                     keyboard={{
+                         enabled: true,
+                       }}
+                       breakpoints={{
+                         769: {
+                           slidesPerView: 3,
+                           slidesPerGroup: 2,
+                         },
+                       }}
                 onSlideChange={() => console.log('slide change')}
-                onSwiper={() => {}}
+                onSwiper={(swiper) => console.log(swiper)}
                 className="swiper1"
             >
             {UpFestDets.map((val,key) => {
@@ -191,7 +249,7 @@ function TeachDash(props) {
                   
                   return(
                      
-                     <div id="react-logo1" style={{ width: 350, height: 350, marginLeft:'35%',marginTop:'-350px' }} />
+                     <div id="react-logo1" key={key} style={{ width: 350, height: 350, marginLeft:'35%',marginTop:'-350px' }} />
                   )
                }
                 })}
@@ -209,10 +267,20 @@ function TeachDash(props) {
                 className="swiper1"
             >
             {ProjDets.map((val,key) => {
+            if(ProjDets[0]!=="No Data")
+         {
+         
             return (
-                <SwiperSlide key={key}><Preview name={val.pname} org={val.skill1} start={val.start} /></SwiperSlide>
-                );
-                })} 
+          <SwiperSlide key={key}><Preview name={val.pname} org={val.skill1} start={val.start} end={val.duration+" Months"}/></SwiperSlide>
+          );
+         }
+         else{
+            
+            return(
+             <div id="react-logo2" key={key} style={{ width: 350, height: 350, marginLeft:'35%',marginTop:'-350px' }} />
+            )
+         }
+           })} 
             </Swiper> 
             </div>
          </div>
@@ -227,10 +295,20 @@ function TeachDash(props) {
                 className="swiper1"
             >
             {UpProjDets.map((val,key) => {
-            return (
-                <SwiperSlide key={key}><Preview name={val.pname} org={val.skill1} start={val.start}/></SwiperSlide>
-                );
-                })} 
+            if(UpProjDets[0]!=="No Data")
+            {
+            
+               return (
+             <SwiperSlide key={key}><Preview name={val.pname} org={val.skill1} start={val.start} end={val.duration+" Months"} /></SwiperSlide>
+             );
+            }
+            else{
+               
+               return(
+                <div id="react-logo3" key={key} style={{ width: 350, height: 350, marginLeft:'35%',marginTop:'-350px' }} />
+               )
+            }
+              })} 
             </Swiper> 
             </div>
          </div>

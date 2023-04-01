@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import cardimg from './Images/fest1.png';
-
+import { useNavigate } from "react-router-dom";
 import { CardActionArea, CardActions } from '@mui/material';
 
 import {Button} from '@mui/material';
@@ -12,7 +12,7 @@ import RegisterPopup from './RegisterPopup';
 
 export default function MultiActionAreaCard(props) {
 
-
+  const navigate=useNavigate();
   return (
     <Card sx={{ maxWidth: 345 }} >
       <CardActionArea>
@@ -34,9 +34,7 @@ export default function MultiActionAreaCard(props) {
        
       </CardActionArea>
       <CardActions >
-          <RegisterPopup fid={props.fid}/>
-          
-       
+      {sessionStorage.email === undefined || localStorage.email === undefined? <Button onClick={()=>{navigate("/login")}}>Login</Button>:  <RegisterPopup fid={props.fid}/> }
       </CardActions>
     </Card>
   );
