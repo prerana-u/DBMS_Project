@@ -10,17 +10,32 @@ function TeacherReg() {
     const [depReg, setdepReg] = useState ("");
     const [phreg, setphReg] = useState ("");
     const supabase = createClient("https://npropcvowslhzxxaigvi.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wcm9wY3Zvd3NsaHp4eGFpZ3ZpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3OTM5OTg3NywiZXhwIjoxOTk0OTc1ODc3fQ.iJ_vCpYUyRFEIP3ZgfYVZvXaQoAHLK7OtierGGpasOA");
+    const letters = /^[A-Za-z]+$/;
     const register1 = () => {
-     
-       Axios.post("http://localhost:3001/registerTeach", {
-         name:namereg,
-         email: emailReg,
-         password: passwordReg,
-         dep:depReg,
-         phone:phreg,
-        }).then((response) => {
-           console.log(response);
-        });
+     if(letters.test(namereg))
+     {
+         if(phreg.length === 10)
+         {
+            Axios.post("http://localhost:3001/registerTeach", {
+               name:namereg,
+               email: emailReg,
+               password: passwordReg,
+               dep:depReg,
+               phone:phreg,
+            }).then((response) => {
+               console.log(response);
+            });
+         }
+         else
+         {
+            alert("Please Enter Correct Phone Number.(10 digit)");
+         }
+     }
+     else
+     {
+        alert("Name can't contain digits");
+     }
+       
       };
  
       async function upload(event) 
@@ -50,7 +65,7 @@ function TeacherReg() {
             </div>
            <div id="finput" >
             <label>Name</label><br></br>
-            <input type="text" className="input1" required onChange={(e) =>{
+            <input type="text" className="input1" onKeyDown={(e)=>{return /[A-Za-z]/i.test(e.target.key)}} required onChange={(e) =>{
                setnameReg(e.target.value);
             }}/> <br />
             <label>Department</label>
@@ -86,7 +101,7 @@ function TeacherReg() {
                setphReg(e.target.value);
             }}/> <br />
              <label>Choose a Profile Photo:  </label>
-            <input type="file" id="myfile" name="myfile" onChange={(e)=>(upload(e))}></input>
+            <input type="file" id="myfile" name="myfile" required onChange={(e)=>(upload(e))}></input>
             <br></br>
             <button onClick={register1} id="regbtn"> Register</button>
             </div>

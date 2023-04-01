@@ -2,6 +2,7 @@ import '../App.css';
 import dp from './Images/cuate.png';
 import wave from './Images/Vector.png';
 import Axios from 'axios';
+import { Keyboard, Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/scrollbar";
@@ -60,10 +61,26 @@ function Homepage() {
     <h3 id="uftext">Upcoming Fests</h3>
     <div id="uf">
     <Swiper
+               modules={[Keyboard, Navigation, Pagination]}
                 spaceBetween={50}
+                centeredSlides={false}
                 slidesPerView={NoOfSlides}
+                navigation={true}
+                    pagination={{
+                      clickable: true,
+                    }}
+                    keyboard={{
+                        enabled: true,
+                      }}
+                      breakpoints={{
+                        769: {
+                          slidesPerView: {NoOfSlides},
+                          slidesPerGroup: 2,
+                        },
+                      }}
                 onSlideChange={() => console.log('slide change')}
                 onSwiper={(swiper) => console.log(swiper)}
+                className="swiper1"
             >
             {FestDets.map((val,key) => {
             return (

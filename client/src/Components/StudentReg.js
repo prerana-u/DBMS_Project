@@ -14,26 +14,43 @@ function StudentReg() {
     const [namereg, setnameReg] = useState ("");
     const [regnoReg, setregnoReg] = useState ("");
     const [depReg, setdepReg] = useState ("");
-    const [phreg, setphReg] = useState ("");
+    const [phreg1, setphReg] = useState ("");
     const [semreg, setsemReg] = useState ("");
     const [classreg, setclassReg] = useState ("");
     const navigate=useNavigate();
+    const letters = /^[A-Za-z]+$/;
 
     const register1 = (event) => {
       event.preventDefault();
-       Axios.post("http://localhost:3001/register", {
-         name:namereg,
-         regno:regnoReg,  
-         email: emailReg,
-         password: passwordReg,
-         dep:depReg,
-         phone:phreg,
-         class1:classreg,
-         semester:semreg,
-        }).then((response) => {
-           console.log(response);
-           navigate('/login');
-        });
+      console.log(phreg1.length);
+      if(letters.test(namereg))
+      {
+            if(phreg1.length == 10)
+            {
+               Axios.post("http://localhost:3001/register", {
+                  name:namereg,
+                  regno:regnoReg,  
+                  email: emailReg,
+                  password: passwordReg,
+                  dep:depReg,
+                  phone:phreg1,
+                  class1:classreg,
+                  semester:semreg,
+               }).then((response) => {
+                  console.log(response);
+                  navigate('/login');
+               });
+            }
+            else
+            {
+               alert("Please Enter Correct Phone Number.(10 digit)");
+            }
+        
+      }
+      else
+         {
+            alert("Please Enter Correct Phone Number.(10 digit)");
+         }
       };
  
       async function upload(event) 
@@ -59,7 +76,7 @@ function StudentReg() {
         <div className="registration">
         <h1>Student Registration</h1>
         <h3>Enter Your Details Below</h3>
-            <form>
+            <form onSubmit={(e)=>register1(e)}>
            
             <div id="fimg">
             <img src={students} alt="studentimage" id="stuimage"></img>
@@ -126,7 +143,7 @@ function StudentReg() {
             <label>Choose a Profile Photo:  </label>
             <input type="file" id="myfile" name="myfile" onChange={(e)=>(upload(e))}></input>
             <br></br>
-            <button onClick={(e)=>register1(e)} id="regbtn"> Register</button>
+            <input type="submit" id="regbtn" value="Register"/> 
             </div>
             </form>
            

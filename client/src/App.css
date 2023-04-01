@@ -16,6 +16,21 @@
   color:#003C87;
   font-family: 'Gugi', cursive;
   }
+  @media only screen and (min-width: 768px) {
+    /* For desktop: */
+    .col-1 {width: 8.33%;}
+    .col-2 {width: 16.66%;}
+    .col-3 {width: 25%;}
+    .col-4 {width: 33.33%;}
+    .col-5 {width: 41.66%;}
+    .col-6 {width: 50%;}
+    .col-7 {width: 58.33%;}
+    .col-8 {width: 66.66%;}
+    .col-9 {width: 75%;}
+    .col-10 {width: 83.33%;}
+    .col-11 {width: 91.66%;}
+    .col-12 {width: 100%;}
+  }
   #bowl{
     width: 450px;
     height: 400px;
@@ -111,7 +126,7 @@
   border-radius: 15px;
   background-color: #1BA2DE;
 }
-.content1{
+.main_content{
   margin-left: -5%;
   margin-top: 5%;
   height: 45vh;
@@ -138,9 +153,9 @@
 .card2{
   margin-left: 6%;
 }
-.content2{
+.content_buttons{
   width: 102%;
-  height: 100%;
+  height: 70%;
   align-items: left;
   display: grid;
   grid-template-columns: auto auto;

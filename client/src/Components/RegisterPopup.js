@@ -1,4 +1,4 @@
-import React,{ useState} from 'react';
+import React,{ useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import Popup from 'reactjs-popup';
 import './CSS/popup.css';
@@ -11,6 +11,7 @@ export default function RegisterPopup(props) {
   const[selectedEvent,setSelectedEvent]=useState("");
   const navigate=useNavigate();
   var arr=[];
+  
   const getEvents= () => {
     var fid=props.fid;
     

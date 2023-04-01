@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './CSS/nav.css';
 
 import sflogo from './Images/sflogo.png';
@@ -11,8 +11,12 @@ const Verticalnav = (props)=> {
   //console.log(props.role);
   const [uname,setUname]=useState("");
   const [nlink,setnlink]=useState("");
+  const [slink,setslink]=useState("");
   const supabase = createClient("https://npropcvowslhzxxaigvi.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wcm9wY3Zvd3NsaHp4eGFpZ3ZpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3OTM5OTg3NywiZXhwIjoxOTk0OTc1ODc3fQ.iJ_vCpYUyRFEIP3ZgfYVZvXaQoAHLK7OtierGGpasOA");
-
+ (function(){
+      localStorage.getItem("email")==="true" ? console.log("verfied") : window.location.href='http://localhost:3000/login';
+      
+ })()
 
   function fetchdata()
  {
@@ -20,6 +24,7 @@ const Verticalnav = (props)=> {
     {
       setUname(sessionStorage.teacherName);
       setnlink("/td");
+      setslink("/search");
 
       //console.log(uname);
     }
@@ -30,10 +35,18 @@ const Verticalnav = (props)=> {
       console.log( document.getElementById("s").value);
       document.getElementById("s").innerHTML="<b>Edit Skills</b>";
       document.getElementById('sicon').className="fa fa-pencil";
+      setslink("/skillform");
     }
 
 
     
+ }
+ function logout()
+ {
+    sessionStorage.clear();
+    localStorage.removeItem("email");
+    
+    window.location="http://localhost:3000/login";
  }
  
  const { data, error } = supabase
@@ -42,12 +55,17 @@ const Verticalnav = (props)=> {
  .getPublicUrl('public/'+uname+'.png')
  //console.log(data.publicUrl);
 
+ useEffect(()=>{
+ 
+  console.log(uname);
+},[uname]);
+ 
 
 
  
   
   return (
-    <div className='VNavContainer' onLoad={()=>{fetchdata()}}>
+    <div className='VNavContainer' onLoad={()=>{ fetchdata()}}>
       <nav className='vnav'>
          <div className="profile">
           <div className='logo1'><img src={sflogo} alt="navimg" /></div>
@@ -60,7 +78,7 @@ const Verticalnav = (props)=> {
             </li>
             <br/>
             <li>
-            <NavLink to="/search" activeClassname='active'  name="search" id="link"><i id="sicon" className="fa fa-search"></i> <b id="s"> Search</b></NavLink>
+            <NavLink to={slink} activeClassname='active'  name="search" id="link"><i id="sicon" className="fa fa-search"></i> <b id="s"> Search</b></NavLink>
             </li>
             <br/>
             <li>
@@ -73,7 +91,7 @@ const Verticalnav = (props)=> {
             <br/>
             
             <li>
-            <NavLink to="/login"  id="link"><b><i className="fa fa-sign-out"></i>  Logout</b></NavLink>
+            <NavLink to="/"  id="link" onClick={logout}><b><i className="fa fa-sign-out"></i>  Logout</b></NavLink>
             </li>
          
          </ul>

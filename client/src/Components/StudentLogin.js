@@ -4,6 +4,7 @@ import Axios from 'axios';
 import students from './Images/loginstu.png';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import Alert from '@mui/material/Alert';
 
 function StudentLogin() {
     const [email, setemail] = useState("");
@@ -26,13 +27,14 @@ function StudentLogin() {
               console.log("Successfully logged in");
               console.log(response);
               setLoginStatus(true);
+              localStorage.setItem("email",true);
               sessionStorage.setItem("email",email);
-             
+              sessionStorage.setItem("regno",response.data[0].regno);
               navigate('/studentdash');
             
            } else {
               setLoginStatus(false);
-              console.log("Invalid Details!");
+              document.getElementById('alert1').style.display = 'inline-block';
            }
         }); 
         
@@ -78,6 +80,9 @@ function StudentLogin() {
    
           <button onClick={(e)=>login1(e)} id="regbtn"> Login</button>
           </div>
+          <div style={{width:'400px',height:'30px',display:'none',marginLeft:'20px',float:'left',marginTop:'20px'}} id="alert1">
+            <Alert severity="error">Invaild ID or Password</Alert>
+         </div>
           </form>
          
        </div>

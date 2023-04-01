@@ -21,7 +21,8 @@ export default function Popup1() {
 
         const popupform = (e) => {
            
-           
+            if(startdate < enddate)
+        { 
            axios.post("http://localhost:3001/multicard", {
              name: name,
              organization: org,
@@ -42,6 +43,10 @@ export default function Popup1() {
             }).then((response) => {
                console.log(response);
         });
+    }
+    else{
+        alert("Check the date input properly");
+    }
     }
 
 
@@ -97,31 +102,31 @@ export default function Popup1() {
                                    
                                     <label>
                                         Name:
-                                        <input type="text" className="inputfields" onChange={(e) => {setname(e.target.value);}}/>
+                                        <input type="text" className="inputfields" onChange={(e) => {setname(e.target.value);}} required/>
                                     </label><br/>
                                     <label>
                                         Organization:
-                                        <input type="text" className="inputfields" onChange={(e) => {setorg(e.target.value);}}/>
+                                        <input type="text" className="inputfields" onChange={(e) => {setorg(e.target.value);}} required/>
                                     </label><br/>
                                     <label>
                                         Mode:
-                                        <input type="text" className="inputfields" onChange={(e) => {setmode(e.target.value);}}/>
+                                        <input type="text" className="inputfields" onChange={(e) => {setmode(e.target.value);}} required/>
                                     </label><br/>
                                     <label>
                                     Start Date:
-                                        <input type="date" className="inputfields" onChange={(e) => {setstartdate(e.target.value);}}/>
+                                        <input type="date" className="inputfields" onChange={(e) => {setstartdate(e.target.value);}} required/>
                                     </label><br/>
                                     <label>
                                     End Date:
-                                        <input type="date" className="inputfields" onChange={(e) => {setenddate(e.target.value);}}/>
+                                        <input type="date" className="inputfields" onChange={(e) => {setenddate(e.target.value);}} required/>
                                     </label><br/>
                                     <label>
                                     Description:
-                                        <textarea className="inputfields" onChange={(e) => {setdescription(e.target.value);}}/>
+                                        <textarea className="inputfields" onChange={(e) => {setdescription(e.target.value);}} required/>
                                     </label><br/>
                                     <label>
                                     Type:
-                                        <select className="inputfields" onChange={(e) => {settype(e.target.value);}}>
+                                        <select className="inputfields" onChange={(e) => {settype(e.target.value);}} required>
                                             <option value="none"> None </option>
                                             <option value="intercollege">Intercollege</option>
                                             <option value="intracollege">Intracollege</option>
@@ -133,7 +138,7 @@ export default function Popup1() {
                                     <br/>
                                     <div >
                                     <label>Event 1</label>
-                                    <input type="text"  className="inputfields"  id="events1" name="events" onChange={(e) => {setEvents1(e.target.value);}}/>
+                                    <input type="text"  className="inputfields"  id="events1" name="events" onChange={(e) => {setEvents1(e.target.value);} } />
                                     <label>Event 2</label>
                                     <input type="text"  className="inputfields"  id="events2" name="events" onChange={(e) => {setEvents2(e.target.value);}}/>
                                     <label>Event 3</label>

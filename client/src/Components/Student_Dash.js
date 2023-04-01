@@ -23,6 +23,7 @@ import festspart from './Images/festspart.png';
 import projectpart from './Images/projectpart.png';
 import nodataicon from "./Images/Circle.json";
 import lottie from "lottie-web";
+import nodatafound from './Images/nodatafound.png';
 
 function Student_Dash() {
         const navigate=useNavigate();
@@ -42,6 +43,7 @@ function Student_Dash() {
 
 
         const fetchdata = () => {
+         
             arr=[];
             arr1=[];
             arr2=[];
@@ -54,7 +56,7 @@ function Student_Dash() {
             setSsem(response.data[0].semester);
             setSdep(response.data[0].dep);
             setSregno(response.data[0].regno);
-            sessionStorage.setItem("regno",response.data[0].regno);
+           
             //console.log(response);
             //console.log(response.data);
         })
@@ -115,25 +117,38 @@ function Student_Dash() {
         axios.get("http://localhost:3001/get_reg_fest", {
             params: { regno:sessionStorage.getItem('regno') }
         }).then((response) => {
-           setFestDets(response.data);
+            if(response.data.length>0)
+            {
+               setFestDets(response.data);
+              // console.log(FestDets);
+            }
+           else{
+              setFestDets(["No Data"]);
+             // console.log(FestDets);
+           }
            //console.log(response.data);
       })
     };
 
-    useEffect(()=>{
-        fetchdata();
-    },[]);
+  
 
     useEffect(() => {
+        fetchdata();
         lottie.loadAnimation({
           container: document.querySelector("#react-logo"),
           animationData: nodataicon,
+          loop:false,
         });
         lottie.loadAnimation({
             container: document.querySelector("#react-logo1"),
             animationData: nodataicon,
+            loop:false,
           });
+          
+         
       }, []);
+
+    
 
 
  return (
@@ -151,8 +166,8 @@ function Student_Dash() {
                <div className='headimg'><img src={headimg} alt="headimg"/></div>
             </div>
          </div>
-         <div className="content1">
-            <div className='content2'>
+         <div className="main_content">
+            <div className='content_buttons'>
                <div className='card_sd'>
                     <div className='content' style={{display: "flex", flexDirection:"column", alignItems:"center"}}>
                         <div className='edit' onClick={()=>{ navigate('/skillform');}}><i className="fa-regular fa-pen-to-square fa-2xl" style={{color: "#196EDA",marginTop:'30px'}}></i></div>
@@ -248,10 +263,26 @@ function Student_Dash() {
                     className="swiper1"
                 >
                     {FestDets.map((val,key) => {
-                        return (
-                            <SwiperSlide key={key}><Preview name={val.fname} org={val.fdesc}  /></SwiperSlide>
-                        );
-                    })} 
+                          if(FestDets[0]!=="No Data")
+                          {
+                          
+                             return (
+                           <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} end={val.end} /></SwiperSlide>
+                           );
+                          }
+                          else{
+                             
+                             return(
+                                <div key={key} >
+                                <div id="react-logo3"  style={{marginTop:'-350px', marginLeft:'100px'}}>
+                                    <img style={{ width: '400px', height: '350px' }} src={nodatafound} alt="no data"></img>
+                                    </div>    
+                              
+                                </div>
+                               
+                             )
+                          }
+                            })} 
                 </Swiper> 
             </div>
         </div>
