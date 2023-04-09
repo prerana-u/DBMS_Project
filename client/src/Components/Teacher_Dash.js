@@ -2,6 +2,7 @@ import React from 'react';
 import '../App.css';
 import Verticalnav from  './VerticalNav';
 import Preview from './preview_festcard';
+import Preview_Proj from './preview_project';
 import AddFest from './Addfest';
 import AddProj from './AddProj';
 import axios from 'axios';
@@ -50,16 +51,48 @@ function TeachDash(props) {
          if(response.data.length>0)
          {
             setFestDets(response.data);
-           // console.log(FestDets);
+           console.log(FestDets);
          }
         else{
            setFestDets(["No Data"]);
           // console.log(FestDets);
         }
          //console.log(response.data);
-      })
+      });
+      lottie.loadAnimation({
+         container: document.getElementById("react-logo"),
+         renderer: 'svg',
+         loop: false,
+         autoplay: true,
+         // animationData: // local json file,
+         path: 'https://assets5.lottiefiles.com/packages/lf20_mxuufmel.json',
+       });
+       lottie.loadAnimation({
+         container: document.getElementById("react-logo1"),
+         renderer: 'svg',
+         loop: false,
+         autoplay: true,
+         // animationData: // local json file,
+         path: 'https://assets5.lottiefiles.com/packages/lf20_mxuufmel.json',
+       });
+       lottie.loadAnimation({
+         container: document.getElementById("react-logo2"),
+         renderer: 'svg',
+         loop: false,
+         autoplay: true,
+         // animationData: // local json file,
+         path: 'https://assets5.lottiefiles.com/packages/lf20_mxuufmel.json',
+       });
+       lottie.loadAnimation({
+         container: document.getElementById("react-logo3"),
+         renderer: 'svg',
+         loop: false,
+         autoplay: true,
+         // animationData: // local json file,
+         path: 'https://assets5.lottiefiles.com/packages/lf20_mxuufmel.json',
+       });
    
-    }, [FestDets]);
+    },[]);
 
     useEffect(() => { 
       axios.get("http://localhost:3001/upcoming_fest", {
@@ -76,7 +109,7 @@ function TeachDash(props) {
           // console.log(response.data);
       })
  
-  }, [UpFestDets]);
+  },[]);
 
   
   useEffect(() => { 
@@ -90,12 +123,12 @@ function TeachDash(props) {
     }
    else{
       setProjDets(["No Data"]);
-     // console.log(FestDets);
+     console.log(FestDets);
    }
     //console.log(response.data);
  })
 
-   }, [ProjDets]);
+   },[]);
 
    useEffect(() => { 
       axios.get("http://localhost:3001/upcoming_proj", {
@@ -112,39 +145,8 @@ function TeachDash(props) {
       }
        //console.log(response.data);
     })
-    lottie.loadAnimation({
-      container: document.getElementById("react-logo"),
-      renderer: 'svg',
-      loop: false,
-      autoplay: true,
-      // animationData: // local json file,
-      path: 'https://assets5.lottiefiles.com/packages/lf20_mxuufmel.json',
-    });
-    lottie.loadAnimation({
-      container: document.getElementById("react-logo1"),
-      renderer: 'svg',
-      loop: false,
-      autoplay: true,
-      // animationData: // local json file,
-      path: 'https://assets5.lottiefiles.com/packages/lf20_mxuufmel.json',
-    });
-    lottie.loadAnimation({
-      container: document.getElementById("react-logo2"),
-      renderer: 'svg',
-      loop: false,
-      autoplay: true,
-      // animationData: // local json file,
-      path: 'https://assets5.lottiefiles.com/packages/lf20_mxuufmel.json',
-    });
-    lottie.loadAnimation({
-      container: document.getElementById("react-logo3"),
-      renderer: 'svg',
-      loop: false,
-      autoplay: true,
-      // animationData: // local json file,
-      path: 'https://assets5.lottiefiles.com/packages/lf20_mxuufmel.json',
-    });
-      }, [UpProjDets]);
+   
+      }, []);
 
 
 
@@ -197,7 +199,7 @@ function TeachDash(props) {
               {
               
                  return (
-               <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} end={val.end} /></SwiperSlide>
+               <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} end={val.end} fid={val.fid}/></SwiperSlide>
                );
               }
               else{
@@ -242,7 +244,7 @@ function TeachDash(props) {
                {
                  
                   return (
-                <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} end={val.end} /></SwiperSlide>
+                <SwiperSlide key={key}><Preview name={val.fname} org={val.org} start={val.start} end={val.end} fid={val.fid}/></SwiperSlide>
                 );
                }
                else{
@@ -271,7 +273,7 @@ function TeachDash(props) {
          {
          
             return (
-          <SwiperSlide key={key}><Preview name={val.pname} org={val.skill1} start={val.start} end={val.duration+" Months"}/></SwiperSlide>
+          <SwiperSlide key={key}><Preview_Proj name={val.pname} org={val.skill1} start={val.start} end={val.duration+" Month(s)"}/></SwiperSlide>
           );
          }
          else{
@@ -299,7 +301,7 @@ function TeachDash(props) {
             {
             
                return (
-             <SwiperSlide key={key}><Preview name={val.pname} org={val.skill1} start={val.start} end={val.duration+" Months"} /></SwiperSlide>
+             <SwiperSlide key={key}><Preview_Proj name={val.pname} org={val.skill1} start={val.start} end={val.duration+" Month(s)"} /></SwiperSlide>
              );
             }
             else{

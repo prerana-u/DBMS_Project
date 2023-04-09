@@ -32,7 +32,7 @@ const Verticalnav = (props)=> {
     {
       setUname(sessionStorage.studentName);
       setnlink("/studentdash");
-      console.log( document.getElementById("s").value);
+    //  console.log( document.getElementById("s").value);
       document.getElementById("s").innerHTML="<b>Edit Skills</b>";
       document.getElementById('sicon').className="fa fa-pencil";
       setslink("/skillform");

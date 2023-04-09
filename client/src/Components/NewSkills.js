@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import { useState } from 'react';
 import Alert from '@mui/material/Alert';
 //import ValidationTextFields from './ValidationTextFields';
-
+import Axios from 'axios';
 
 export default function NewSkills(props) {
   const [DevSkills, setDevSkills] = useState([
@@ -39,8 +39,37 @@ export default function NewSkills(props) {
     let data = [...DevSkills];
     data[index][event.target.name] = event.target.value;
     setDevSkills(data);
-    props.sendData(DevSkills);
+   // props.sendData(DevSkills);
    // console.log(DevSkills[index]);
+  }
+  const setSkills=(e)=>{
+
+    if(e.target.value!=="" && e.target.value!=="Enter Skill")
+    {
+      Axios.get("http://localhost:3001/getskills", {
+      params: { skill:e.target.value,  regno:sessionStorage.getItem('regno'), category:"New" }
+
+      }).then((response) => {
+          console.log(response.data);
+          if(response.data.length>0)
+          {
+            console.log("Skill Exists");
+          }
+          else
+          {
+            Axios.post("http://localhost:3001/setskills", {
+              skill:e.target.value,
+              category:"New",
+               regno:sessionStorage.getItem('regno'),
+              }).then((response) => {
+                 console.log(response);
+              });
+          }
+        
+      })
+      
+    }
+  
   }
 
   return (
@@ -64,6 +93,8 @@ export default function NewSkills(props) {
             defaultValue={input.skill}
             variant="filled"
             onChange={(e) => handleFormChange(index,e)}
+            onFocus={(e)=>{if(e.target.value==="Enter Skill"){e.target.value=""}}}
+            onBlur={(e)=>setSkills(e)}
             sx={{
               width:'400px',
               marginTop:'30px',

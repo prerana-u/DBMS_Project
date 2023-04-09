@@ -40,7 +40,7 @@ function Student_Dash() {
         var arr = [];
         var arr1 = [];
         var arr2 = [];
-
+        var i=0;
 
         const fetchdata = () => {
          
@@ -61,57 +61,48 @@ function Student_Dash() {
             //console.log(response.data);
         })
         axios.get("http://localhost:3001/getskill_studentdash", {
-                    
+            params: { regno:sessionStorage.getItem('regno')}         
         }).then((response) => {
         //setSkill(response.data[0]);
-        //console.log(response.data);
-        //console.log(response.data[0].adv_skill1);
-        if(response.data[0].adv_skill1!=='None' && response.data[0].adv_skill1!=='none')
+       
+     //   console.log(response.data[0].regno);
+
+        while(response.data.length>0)
         {
-            //console.log(response.data[0].adv_skill1);
-            arr.push(response.data[0].adv_skill1);
-            
-        }
-        if(response.data[0].adv_skill2!=='None' && response.data[0].adv_skill2!=='none')
-        {
-            arr.push(response.data[0].adv_skill2);
-        }
-        if(response.data[0].adv_skill3!=='None' && response.data[0].adv_skill3!=='none')
-        {
-            arr.push(response.data[0].adv_skill3);
+           // console.log(response.data[5]);
+         
+            if(response.data[i].category === 'Advanced')
+            {
+                arr.push(response.data[i].skill);
+                console.log(i+" "+arr);
+            }
+           
+            else if(response.data[i].category === 'Intermediate')
+            {
+                arr1.push(response.data[i].skill);
+                console.log(i+" "+arr1);
+            }
+           
+            else
+            {
+                arr2.push(response.data[i].skill);
+                console.log(i+" "+arr2);
+            }
+           
+            i++;
+            if(i>=response.data.length) break;
+          //  response.data.length--;
+          
         }
         setAdv_skills(arr);
-        if(response.data[0].int_skill1!=='None' && response.data[0].int_skill1!=='none')
-        {
-            arr1.push(response.data[0].int_skill1);
-        }
-        if(response.data[0].int_skill2!=='None' && response.data[0].int_skill2!=='none')
-        {
-            arr1.push(response.data[0].int_skill2);
-        }
-        if(response.data[0].int_skill3!=='None' && response.data[0].int_skill3!=='none')
-        {
-            arr1.push(response.data[0].int_skill3);
-        }
         setInt_skills(arr1);
-        if(response.data[0].newskill1!=='None' && response.data[0].newskill1!=='none')
-        {
-            arr2.push(response.data[0].newskill1);
-        }
-        if(response.data[0].newskill2!=='None' && response.data[0].newskill2!=='none')
-        {
-            arr2.push(response.data[0].newskill2);
-        }
-        if(response.data[0].newskill3!=='None' && response.data[0].newskill3!=='none')
-        {
-            arr2.push(response.data[0].newskill3);
-        }
         setNew_skills(arr2);
-    })
-    console.log(int_skills);
-    console.log(adv_skills);
-    console.log(new_skills);
-
+        // console.log(arr);
+        // console.log(adv_skills);
+        // console.log(new_skills);
+    
+        })
+  
        
        // console.log(arr2);
         axios.get("http://localhost:3001/get_reg_fest", {

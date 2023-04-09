@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './CSS/skillform.css';
-
+import Axios from 'axios';
 import { TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
@@ -41,8 +41,37 @@ export default function DevelopedSkills(props) {
     let data = [...DevSkills];
     data[index][event.target.name] = event.target.value;
     setDevSkills(data);
-    props.sendData(DevSkills);
-    //console.log(DevSkills[index]);
+   // props.sendData(DevSkills);
+   
+  }
+  const setSkills=(e)=>{
+
+    if(e.target.value!=="" && e.target.value!=="Enter Skill")
+    {
+      Axios.get("http://localhost:3001/getskills", {
+      params: { skill:e.target.value,  regno:sessionStorage.getItem('regno'), category:"Advanced" }
+
+      }).then((response) => {
+          console.log(response.data);
+          if(response.data.length>0)
+          {
+            console.log("Skill Exists");
+          }
+          else
+          {
+            Axios.post("http://localhost:3001/setskills", {
+              skill:e.target.value,
+              category:"Advanced",
+               regno:sessionStorage.getItem('regno'),
+              }).then((response) => {
+                 console.log(response);
+              });
+          }
+        
+      })
+      
+    }
+  
   }
 
   return (
@@ -66,10 +95,11 @@ export default function DevelopedSkills(props) {
             defaultValue={input.skill}
             variant="filled"
             onChange={(e) => handleFormChange(index,e)}
+            onFocus={(e)=>{if(e.target.value==="Enter Skill"){e.target.value=""}}}
+            onBlur={(e)=>setSkills(e)}
             sx={{
               width:'400px',
               marginTop:'30px',
-             
             }}
           />
       </div>

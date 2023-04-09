@@ -10,7 +10,7 @@ import './CSS/multicard.css';
 
 const StudentPro = (props) => {
     return(
-    <Card sx={{ maxWidth: "390px", height: "290px", backgroundColor: "white",MozBoxShadow:"0 0 5px #ccc",WebkitBoxShadow:"0 0 3px #ccc",boxShadow:"0 0 3px #ccc", marginTop: "5%",marginLeft: "2%"}} id="#card">
+    <Card sx={{ maxWidth: "390px", height: "320px", backgroundColor: "white",MozBoxShadow:"0 0 5px #ccc",WebkitBoxShadow:"0 0 3px #ccc",boxShadow:"0 0 3px #ccc", marginTop: "5%",marginLeft: "2%"}} id="#card">
    <CardActionArea>
         <CardMedia
           component="img"
