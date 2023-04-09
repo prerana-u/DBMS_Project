@@ -29,13 +29,14 @@ function SearchBar() {
   const [skills, setSkills] = useState("");
   
   const [profileData, setProfileData]= useState([]);
+ 
   useEffect(() => {
     console.log(profileData);
     
  }, [profileData]);
   const fetchdata = () => {
   
-    Axios.get("http://localhost:3001/getskills", {
+    Axios.get("http://localhost:3001/getskills_search", {
       params: { skill:skills }
 
     }).then((response) => {
@@ -101,7 +102,7 @@ function SearchBar() {
          return (
           <Grid item xs={2} sm={4} md={4} key={key} display="flex" justifyContent="center" alignItems="center">
            
-              <ProfileCard name={val.name} sclass={val.class} semester={val.semester} dep={val.dep} advskill1={val.adv_skill1} advskill2={val.adv_skill2} advskill3={val.adv_skill3} intskill1={val.int_skill1} intskill3={val.int_skill3} intskill2={val.int_skill2} newskill1={val.newskill1} newskill2={val.newskill2} newskill3={val.newskill3}/>
+              <ProfileCard name={val.name} sclass={val.class} semester={val.semester} dep={val.dep} regno={val.regno}/>
               
           </Grid>
           );

@@ -81,7 +81,7 @@ const db = mysql.createConnection({
            if (result.length > 0) {
 
                sessions.email = email;
-              
+                
                console.log(result);
                console.log(sessions.email)
          
@@ -171,43 +171,48 @@ app.get('/studata', (req, res)=> {
 });
 
 
-// app.get('/getskills', (req, res)=> {
-//   const skill = req.body.skill;
-//   console.log(skill);
-//   db.execute(
-//     "Select * from student where adv_skill1 like %?% or adv_skill2 like %?%",
-//     [skill,skill],
-//     (err, result)=> {
-//     //console.log(err);
-//     console.log(result);
-//     res.send(result);
-//     }
-//   );
-// });
+
+
+app.get('/getskills_search', (req, res)=> {
+  const skill = req.query.skill;
+  console.log(skill);
+  db.execute(
+    "select name,student.regno,class,semester,dep, skills.skill, skills.category from student inner join skills on student.regno=skills.regno where  skills.skill like '%"+skill+"%'",
+    [skill],
+    (err, result)=> {
+   // console.log(err);
+    console.log(result);
+    res.send(result);
+    }
+  );
+});
 
 app.get('/getskills', (req, res) => {
   const skill = req.query.skill;
-  console.log(skill);
+  const regno=req.query.regno;
+  const category=req.query.category;
+ // console.log(skill);
 
     db.execute(
-          "Select * from student where adv_skill1 like '%" + skill + "%' or adv_skill2 like '%" + skill + "%' or adv_skill3 like '%" + skill + "%' or int_skill1 like '%" + skill + "%' or int_skill2 like '%" + skill + "%' or int_skill3 like '%" + skill + "%' or newskill1 like '%" + skill + "%' or newskill2 like '%" + skill + "%' or newskill3 like '%" + skill + "%'",
+          "select * from skills where regno="+regno+" and skill='"+skill+"' and category='"+category+"';",
         
           (err, result)=> {
           //console.log(err);
-          console.log(result);
+         // console.log("Hi"+result);
           res.send(result);
           }
         );
   });
 
   app.get('/getskill_studentdash', (req, res) => {
+    const regno=req.query.regno;
+    console.log(regno);
     db.execute(
-          "Select adv_skill1,adv_skill2,adv_skill3,int_skill1,int_skill2,int_skill3,newskill1,newskill2,newskill3 from student where email=?",
-          [sessions.email],
+      "Call get_skills("+regno+")",
           (err, result)=> {
           //console.log(err);
-          console.log(result);
-          res.send(result);
+          console.log("Hi"+result[0]);
+          res.send(result[0]);
           }
         );
   });
@@ -225,25 +230,25 @@ app.get('/getskills', (req, res) => {
   });
 
 app.post('/setskills', (req, res)=> {
-  const askill1 = req.body.advskill1;
-  const askill2 = req.body.advskill2;
-  const askill3 = req.body.advskill3;
-  // session=req.session;
-  console.log(sessions.email);
-  console.log(askill1);
-  console.log(askill2);
-  console.log(askill3);
-  const iskill1 = req.body.intskill1;
-  const iskill2 = req.body.intskill2;
-  const iskill3 = req.body.intskill3;
-  const bskill1 = req.body.newskill1;
-  const bskill2 = req.body.newskill2;
-  const bskill3 = req.body.newskill3;
+  const askill1 = req.body.skill;
+  // const askill2 = req.body.advskill2;
+  // const askill3 = req.body.advskill3;
+  // // session=req.session;
+   const regno=req.body.regno;
+   const category=req.body.category;
+  // const iskill1 = req.body.intskill1;
+  // const iskill2 = req.body.intskill2;
+  // const iskill3 = req.body.intskill3;
+  // const bskill1 = req.body.newskill1;
+  // const bskill2 = req.body.newskill2;
+  // const bskill3 = req.body.newskill3;
 
  // console.log("ho");
   db.execute(
-    "Update student set adv_skill1=?, adv_skill2=?,adv_skill3=?,int_skill1=?, int_skill2=?,int_skill3=?,newskill1=?, newskill2=?,newskill3=? where email=?",
-    [askill1, askill2, askill3,iskill1,iskill2,iskill3,bskill1,bskill2,bskill3,sessions.email],
+    // "Update student set adv_skill1=?, adv_skill2=?,adv_skill3=?,int_skill1=?, int_skill2=?,int_skill3=?,newskill1=?, newskill2=?,newskill3=? where email=?",
+    // [askill1, askill2, askill3,iskill1,iskill2,iskill3,bskill1,bskill2,bskill3,sessions.email],
+    "Insert into skills values(?,?,?)",
+    [regno,askill1,category],
     (err, result)=> {
      console.log(err);
     //console.log(result);
@@ -258,7 +263,7 @@ app.post('/setskills', (req, res)=> {
 
       const tid=req.query.tid;
       db.execute(
-          "SELECT fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start,DATE_FORMAT(edate,'%d-%m-%y') as end FROM fest where sdate <= CURDATE() and tid="+tid,
+          "SELECT fid,fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start,DATE_FORMAT(edate,'%d-%m-%y') as end FROM fest where sdate <= CURDATE() and tid="+tid,
           (err, result)=> {
               if (err) {
                   res.send({err: err});
@@ -276,7 +281,7 @@ app.post('/setskills', (req, res)=> {
         const tid=req.query.tid;
       
         db.execute(
-            "SELECT fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start, DATE_FORMAT(edate,'%d-%m-%y') as end FROM fest where sdate >= CURDATE() and tid="+tid,
+            "SELECT fid, fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start, DATE_FORMAT(edate,'%d-%m-%y') as end FROM fest where sdate >= CURDATE() and tid="+tid,
             (err, result)=> {
                 if (err) {
                     res.send({err: err});
@@ -299,13 +304,28 @@ app.post('/setskills', (req, res)=> {
               if (err) {
                   console.log(err);
               }
-              if (result) {
-                
-                  res.send(result);
-                  }else(res.send({message: "No data found"}));
+              res.send(result)
               }
         )
       });
+
+      //get details of students who have registered for a particular fest
+      app.get('/get_reg_students', (req, res) => {
+
+        const fid=req.query.fid;
+        db.execute(
+            "select r.regno,s.name, s.semester,s.class,r.event_name from student s join reg_fests r on r.regno=s.regno and r.festid="+fid,
+            (err, result)=> {
+                if (err) {
+                    console.log(err);
+                }
+                if (result) {
+                  
+                    res.send(result);
+                    }else(res.send({message: "No data found"}));
+                }
+          )
+        });
 
       app.get('/upcoming_proj', (req, res) => {
 
