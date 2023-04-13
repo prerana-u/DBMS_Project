@@ -12,9 +12,9 @@ import headimg from './Images/headimg.png';
 import { Box } from '@mui/system';
 
 function SearchBar() {
-
+  const [skills, setSkills] = useState("");
   const [tname, setTName]=useState('');
-
+	
   const fetchdata1 = () => {
   Axios.get("http://localhost:3001/teachdata", {
 
@@ -23,10 +23,16 @@ function SearchBar() {
      setTName(response.data[0].name);
      console.log(response);
      console.log(response.data);
+     var s=document.getElementById('input-with-icon-adornment');
+     if(sessionStorage.getItem("Skills")!=undefined && s.value=="Search for a Skill or a Student.." )
+     {
+      s.value=sessionStorage.getItem("Skills");
+      setSkills(sessionStorage.getItem("Skills"));
+     }
 })
 };
   
-  const [skills, setSkills] = useState("");
+  
   
   const [profileData, setProfileData]= useState([]);
  
@@ -49,6 +55,7 @@ function SearchBar() {
     };
 
   const clearInput = () => {
+    if( document.getElementById('input-with-icon-adornment').value==="Search for a Skill or a Student..")
     document.getElementById('input-with-icon-adornment').value="";
 
   }
@@ -65,6 +72,7 @@ function SearchBar() {
       <div className='main' onLoad={fetchdata1}>
       <Verticalnav active="search" role="teacher"/>
       <div className="container">
+
       <div className="heading">
             <div className='headingcontent1'>
                <div className='headtext'>Welcome {tname}</div>

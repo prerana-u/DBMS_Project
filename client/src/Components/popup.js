@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import Popup from 'reactjs-popup';
 import './CSS/popup.css';
 import axios from 'axios';
-
+import { createClient } from "@supabase/supabase-js";
 export default function Popup1() {
         const [name, setname] = useState("");
         const [org, setorg] = useState ("");
@@ -16,11 +16,11 @@ export default function Popup1() {
         const [events3,setEvents3]=useState("None");
         const [events4,setEvents4]=useState("None");
         const [events5,setEvents5]=useState("None");
-        
+        const supabase = createClient("https://npropcvowslhzxxaigvi.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wcm9wY3Zvd3NsaHp4eGFpZ3ZpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3OTM5OTg3NywiZXhwIjoxOTk0OTc1ODc3fQ.iJ_vCpYUyRFEIP3ZgfYVZvXaQoAHLK7OtierGGpasOA");
     
 
         const popupform = (e) => {
-           
+         
             if(startdate < enddate)
         { 
            axios.post("http://localhost:3001/multicard", {
@@ -47,6 +47,33 @@ export default function Popup1() {
     else{
         alert("Check the date input properly");
     }
+    }
+
+    async function upload(event) 
+    {
+        console.log(name);
+        const avatarFile = event.target.files[0]
+        const { data, error } = await supabase
+        .storage
+        .from('pictures')
+        .upload('public/'+name+'.png', avatarFile, {
+            cacheControl: '3600',
+            upsert: true
+        })
+       // console.log("hello");
+    }
+    async function upload1(event) 
+    {
+        console.log(name);
+        const avatarFile = event.target.files[0]
+        const { data, error } = await supabase
+        .storage
+        .from('pictures')
+        .upload('public/'+name+'.pdf', avatarFile, {
+            cacheControl: '3600',
+            upsert: true
+        })
+        //console.log("hello");
     }
 
 
@@ -154,9 +181,16 @@ export default function Popup1() {
                                   
                                     </fieldset>
                                     <br/>
+                                  
                                     <div >  
-                                        <label>Upload a brochure as pdf/image:  </label>
-                                        <input type="file" id="myfile" name="myfile" ></input>
+                                        <label>Upload a Fest Poster as Image:  </label>
+                                        <input type="file" id="myfile" name="myfile" onChange={(e)=>(upload(e))} required></input>
+                                        
+                                    </div>
+                                    <br/>
+                                    <div >  
+                                        <label>Upload a Brochure as PDF (Optional):  </label>
+                                        <input type="file" id="myfile" name="myfile" onChange={(e)=>(upload1(e))} required></input>
                                         
                                     </div>
                                     <input type="submit" value="Submit" onClick={(e)=>{popupform(e)}}/>

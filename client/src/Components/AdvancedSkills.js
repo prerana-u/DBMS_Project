@@ -55,7 +55,8 @@ export default function DevelopedSkills(props) {
           console.log(response.data);
           if(response.data.length>0)
           {
-            console.log("Skill Exists");
+           
+            console.log("Skill Exists! ");
           }
           else
           {

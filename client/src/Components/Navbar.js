@@ -15,11 +15,11 @@ const Navbar= () =>{
         document.getElementById('ricon').className="fa fa-user";
         if(sessionStorage.studentName !== undefined)
         {
-          document.getElementById("register").innerHTML="<b>DashBoard</b>";
+          document.getElementById("register").innerHTML="<b> DashBoard</b>";
           setnlink("/studentdash");
         }
         else {
-          document.getElementById("register").innerHTML="<b>DashBoard</b>";
+          document.getElementById("register").innerHTML="<b> DashBoard</b>";
           setnlink("/td");
         }
         

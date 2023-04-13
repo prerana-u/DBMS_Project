@@ -4,12 +4,13 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, CardActions} from '@mui/material';
-
+import { useNavigate } from "react-router-dom";
 import cardimg from './Images/fest1.png';
-import StuDataPopup from './StuDataPopup';
+import {Button} from '@mui/material';
 import './CSS/multicard.css';
-
-const preview_project = (props) => {
+import StuDataPopup from './StuDataPopup';
+const PreviewProject = (props) => {
+  const navigate=useNavigate();
     return(
     <Card sx={{ maxWidth: "390px", height: "360px", backgroundColor: "white",MozBoxShadow:"0 0 5px #ccc",WebkitBoxShadow:"0 0 3px #ccc",boxShadow:"0 0 3px #ccc", marginTop: "5%",marginLeft: "2%"}} id="#card">
    <CardActionArea>
@@ -35,9 +36,12 @@ const preview_project = (props) => {
            Duration: {props.end}
           </Typography>
         </CardContent>
-       
+        <CardActions >
+ 
+        <StuDataPopup pid={props.pid} etype="project"/>
+      </CardActions>
     </CardActionArea>
   </Card>
     );
 }
-export default preview_project;
+export default PreviewProject;

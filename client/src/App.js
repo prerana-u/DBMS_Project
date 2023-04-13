@@ -9,7 +9,8 @@ import SearchBar from './Components/SearchBar';
 import TeachDash from './Components/Teacher_Dash';
 import StudentDash from './Components/Student_Dash';
 import FestReg from './Components/FestReg';
-
+import EditProfile from './Components/EditProfile';
+import EditProfileTeach from './Components/EditProfileTeach';
 function App() {
  
   return (
@@ -27,6 +28,8 @@ function App() {
         <Route path="studentdash" element={<StudentDash />} />
         <Route path="search" element={<SearchBar />} />
         <Route path="festreg" element={<FestReg/>}/>
+        <Route path="editprofile" element={<EditProfile/>}/>
+        <Route path="editprofileteach" element={<EditProfileTeach/>}/>
        
 
     </Routes>

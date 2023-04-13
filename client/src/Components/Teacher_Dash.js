@@ -2,7 +2,8 @@ import React from 'react';
 import '../App.css';
 import Verticalnav from  './VerticalNav';
 import Preview from './preview_festcard';
-import Preview_Proj from './preview_project';
+import PreviewProj from './PreviewProject';
+import PreviewUpcoming from './PreviewUpcoming';
 import AddFest from './Addfest';
 import AddProj from './AddProj';
 import axios from 'axios';
@@ -273,7 +274,7 @@ function TeachDash(props) {
          {
          
             return (
-          <SwiperSlide key={key}><Preview_Proj name={val.pname} org={val.skill1} start={val.start} end={val.duration+" Month(s)"}/></SwiperSlide>
+          <SwiperSlide key={key}><PreviewProj pid={val.pid} name={val.pname} org={val.skill1} start={val.start} end={val.duration+" Month(s)"}/></SwiperSlide>
           );
          }
          else{
@@ -301,7 +302,7 @@ function TeachDash(props) {
             {
             
                return (
-             <SwiperSlide key={key}><Preview_Proj name={val.pname} org={val.skill1} start={val.start} end={val.duration+" Month(s)"} /></SwiperSlide>
+             <SwiperSlide key={key}><PreviewUpcoming pid={val.pid} name={val.pname} org={val.skill1} start={val.start} end={val.duration+" Month(s)"} /></SwiperSlide>
              );
             }
             else{
