@@ -41,8 +41,8 @@ const db = mysql.createConnection({
       "INSERT INTO student (name,regno,email, password,dep,phone,semester,class) VALUES (?,?,?,?,?,?,?,?)",
       [name,regno,email, password,dep,phone,sem,class1],
       (err, result)=> {
-      console.log(err);
-      console.log(result);
+    //  console.log(err);
+     // console.log(result);
       res.send(result);
       }
     );
@@ -82,7 +82,7 @@ const db = mysql.createConnection({
 
                sessions.email = email;
                 
-               console.log(result);
+              // console.log(result);
                console.log(sessions.email)
          
                res.send( result);
@@ -99,7 +99,7 @@ const db = mysql.createConnection({
   app.post('/loginTeach', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
-    console.log("Hi");
+  //  console.log("Hi");
     db.execute(
         "SELECT * FROM teacher WHERE email = ? AND password = ?",
         [email, password],
@@ -111,7 +111,7 @@ const db = mysql.createConnection({
             if (result.length > 0) 
             {
                 sessions.teach_email = email;
-                console.log(result);
+               // console.log(result);
                 res.send( result);
             }
 
@@ -128,8 +128,8 @@ const db = mysql.createConnection({
     db.execute(
       "Select fid,fname,fdesc from fest  where sdate >= CURDATE()",
       (err, result)=> {
-      console.log(err);
-      console.log(result);
+     // console.log(err);
+   //   console.log(result);
       res.send(result);
       }
     );
@@ -147,7 +147,7 @@ const db = mysql.createConnection({
 });
 app.get('/teachdata', (req, res)=> {
   db.execute(
-    "Select tid,name from teacher where email=?",
+    "Select tid,name,dep,email,phone from teacher where email=?",
     [sessions.teach_email],
     (err, result)=> {
     //console.log(err);
@@ -160,7 +160,7 @@ app.get('/teachdata', (req, res)=> {
 app.get('/studata', (req, res)=> {
   console.log("Hi"+sessions.email);
   db.execute(
-    "Select name,semester,class,dep,regno from student where email=?",
+    "Select name,semester,class,dep,regno,email,phone from student where email=?",
     [sessions.email],
     (err, result)=> {
     //console.log(err);
@@ -170,8 +170,42 @@ app.get('/studata', (req, res)=> {
   );
 });
 
+app.post('/studataup', (req, res)=> {
+  const name = req.body.name;
+  const email = req.body.email;
+  const dep=req.body.dep;
+  const regno=req.body.regno;
+  const phone=req.body.phone;
+  const class1=req.body.class1;
+  const sem=req.body.sem;
+  console.log("Hi"+name,email,dep,regno,phone,class1,sem);
+  db.execute(
+    "UPDATE student SET name='"+name+"',semester="+sem+",class='"+class1+"',dep='"+dep+"',email='"+email+"',phone='"+phone+"' where regno="+regno,
+    (err, result)=> {
+    console.log(err);
+    //console.log(result);
+    res.send(result);
+    }
+  );
+});
 
+app.post('/teachdataup', (req, res)=> {
+  const name = req.body.name;
+  const email = req.body.email;
+  const dep=req.body.dep;
+  const tid=req.body.tid;
+  const phone=req.body.phone;
+ 
 
+db.execute(
+  "UPDATE teacher SET name='"+name+"',dep='"+dep+"',email='"+email+"',phone='"+phone+"' where tid="+tid,
+  (err, result)=> {
+  console.log(err);
+  //console.log(result);
+  res.send(result);
+  }
+);
+});
 
 app.get('/getskills_search', (req, res)=> {
   const skill = req.query.skill;
@@ -206,12 +240,12 @@ app.get('/getskills', (req, res) => {
 
   app.get('/getskill_studentdash', (req, res) => {
     const regno=req.query.regno;
-    console.log(regno);
+    //console.log(regno);
     db.execute(
       "Call get_skills("+regno+")",
           (err, result)=> {
           //console.log(err);
-          console.log("Hi"+result[0]);
+       //   console.log("Hi"+result[0]);
           res.send(result[0]);
           }
         );
@@ -222,40 +256,63 @@ app.get('/getskills', (req, res) => {
           "SELECT distinct f.fid,f.fname,f.org from fest f, reg_fests r where f.fid=r.festid and r.regno="+regno,
           
           (err, result)=> {
-          console.log(err);
-          console.log(result);
+         // console.log(err);
+        //  console.log(result);
           res.send(result);
           }
         );
   });
 
-app.post('/setskills', (req, res)=> {
-  const askill1 = req.body.skill;
-  // const askill2 = req.body.advskill2;
-  // const askill3 = req.body.advskill3;
-  // // session=req.session;
-   const regno=req.body.regno;
-   const category=req.body.category;
-  // const iskill1 = req.body.intskill1;
-  // const iskill2 = req.body.intskill2;
-  // const iskill3 = req.body.intskill3;
-  // const bskill1 = req.body.newskill1;
-  // const bskill2 = req.body.newskill2;
-  // const bskill3 = req.body.newskill3;
+  app.get('/get_reg_project', (req, res) => {
+    const regno=req.query.regno;
+    db.execute(
+          "SELECT distinct p.pid,p.pname,p.skill1 from project p, reg_projects r where p.pid=r.pid and r.regno="+regno,
+          
+          (err, result)=> {
+         // console.log(err);
+        //  console.log(result);
+          res.send(result);
+          }
+        );
+  });
 
- // console.log("ho");
-  db.execute(
-    // "Update student set adv_skill1=?, adv_skill2=?,adv_skill3=?,int_skill1=?, int_skill2=?,int_skill3=?,newskill1=?, newskill2=?,newskill3=? where email=?",
-    // [askill1, askill2, askill3,iskill1,iskill2,iskill3,bskill1,bskill2,bskill3,sessions.email],
-    "Insert into skills values(?,?,?)",
-    [regno,askill1,category],
-    (err, result)=> {
-     console.log(err);
-    //console.log(result);
-    res.send(result);
-    }
-  );
-});
+//Insert into skill table
+app.post('/setskills', (req, res)=> {
+    const askill1 = req.body.skill;
+ 
+    const regno=req.body.regno;
+    const category=req.body.category;
+ 
+    db.execute(
+      
+      "Insert into skills values(?,?,?)",
+      [regno,askill1,category],
+      (err, result)=> {
+     //console.log(err);
+      //console.log(result);
+      res.send(result);
+      }
+    );
+  });
+
+  //Update skill table
+  app.post('/updateskills', (req, res)=> {
+    const askill1 = req.body.skill;
+    const newskill=req.body.newskill;
+    const regno=req.body.regno;
+   
+  
+    db.execute(
+      
+      "update skills set skill=? where skill=? and regno=?",
+      [newskill,askill1,regno],
+      (err, result)=> {
+     // console.log(err);
+      //console.log(result);
+      res.send(result);
+      }
+    );
+  });
 
 
 
@@ -299,10 +356,10 @@ app.post('/setskills', (req, res)=> {
 
       const tid=req.query.tid;
       db.execute(
-          "SELECT pname,duration,skill1,DATE_FORMAT(sdate,'%d-%m-%y') as start FROM project where sdate <= CURDATE() and tid="+tid,
+          "SELECT pid, pname,duration,skill1,DATE_FORMAT(sdate,'%d-%m-%y') as start FROM project where sdate <= CURDATE() and tid="+tid,
           (err, result)=> {
               if (err) {
-                  console.log(err);
+                 // console.log(err);
               }
               res.send(result)
               }
@@ -317,7 +374,7 @@ app.post('/setskills', (req, res)=> {
             "select r.regno,s.name, s.semester,s.class,r.event_name from student s join reg_fests r on r.regno=s.regno and r.festid="+fid,
             (err, result)=> {
                 if (err) {
-                    console.log(err);
+                    //console.log(err);
                 }
                 if (result) {
                   
@@ -327,12 +384,29 @@ app.post('/setskills', (req, res)=> {
           )
         });
 
+        app.get('/get_reg_students_proj', (req, res) => {
+
+          const pid=req.query.pid;
+          db.execute(
+              "select r.regno,s.name, s.semester,s.class,s.no_of_project from student s join reg_projects r on r.regno=s.regno and r.pid="+pid,
+              (err, result)=> {
+                  if (err) {
+                      //console.log(err);
+                  }
+                  if (result) {
+                    
+                      res.send(result);
+                      }else(res.send({message: "No data found"}));
+                  }
+            )
+          });
+
       app.get('/upcoming_proj', (req, res) => {
 
         const tid=req.query.tid;
       
         db.execute(
-            "SELECT pname,duration,skill1,DATE_FORMAT(sdate,'%d-%m-%y') as start FROM project where sdate >= CURDATE() and tid="+tid,
+            "SELECT pid, pname,duration,skill1,DATE_FORMAT(sdate,'%d-%m-%y') as start FROM project where sdate >= CURDATE() and tid="+tid,
             (err, result)=> {
                 if (err) {
                     res.send({err: err});
@@ -354,7 +428,7 @@ app.post('/setskills', (req, res)=> {
                     
                       (err, result)=> {
                       //console.log(err);
-                      console.log(result);
+                    //  console.log(result);
                       res.send(result);
                       }
                     );
@@ -429,6 +503,26 @@ app.post('/setskills', (req, res)=> {
         }
         );
     });
+
+    app.post('/reg_project', (req, res)=> {
+      const pid=req.body.pid;
+      const tid=req.body.tid;
+      const regno= req.body.regno;
+      console.log(pid, tid, regno);
+       db.execute(
+         "INSERT INTO reg_projects values(?,?,?)",
+         [pid, tid, regno],
+         (err, result)=> {
+           if (err) {
+               console.log(err);
+           }
+   
+           if (result.length > 0) {
+               res.send(result);
+               }else(res.send({message: "Error!"}));
+       }
+       );
+   });
 
     app.get('/student-logout', function (req, res, next) {
       sessions.email = undefined;

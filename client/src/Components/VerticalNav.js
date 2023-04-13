@@ -11,6 +11,7 @@ const Verticalnav = (props)=> {
   //console.log(props.role);
   const [uname,setUname]=useState("");
   const [nlink,setnlink]=useState("");
+  const [elink,setelink]=useState("");
   const [slink,setslink]=useState("");
   const supabase = createClient("https://npropcvowslhzxxaigvi.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wcm9wY3Zvd3NsaHp4eGFpZ3ZpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3OTM5OTg3NywiZXhwIjoxOTk0OTc1ODc3fQ.iJ_vCpYUyRFEIP3ZgfYVZvXaQoAHLK7OtierGGpasOA");
  (function(){
@@ -25,7 +26,8 @@ const Verticalnav = (props)=> {
       setUname(sessionStorage.teacherName);
       setnlink("/td");
       setslink("/search");
-
+      setelink("/editprofileteach");
+     
       //console.log(uname);
     }
     else
@@ -36,6 +38,7 @@ const Verticalnav = (props)=> {
       document.getElementById("s").innerHTML="<b>Edit Skills</b>";
       document.getElementById('sicon').className="fa fa-pencil";
       setslink("/skillform");
+      setelink("/editprofile");
     }
 
 
@@ -43,11 +46,16 @@ const Verticalnav = (props)=> {
  }
  function logout()
  {
+   
+   
     sessionStorage.clear();
+  
     localStorage.removeItem("email");
     
     window.location="http://localhost:3000/login";
  }
+
+ const recruit=()=>{ console.log("HI");localStorage.setItem("isRecruit","false");}
  
  const { data, error } = supabase
  .storage
@@ -78,7 +86,7 @@ const Verticalnav = (props)=> {
             </li>
             <br/>
             <li>
-            <NavLink to={slink} activeClassname='active'  name="search" id="link"><i id="sicon" className="fa fa-search"></i> <b id="s"> Search</b></NavLink>
+            <NavLink to={slink} activeClassname='active'  name="search" id="link" onClick={recruit}><i id="sicon" className="fa fa-search" ></i> <b id="s"> Search</b></NavLink>
             </li>
             <br/>
             <li>
@@ -87,6 +95,10 @@ const Verticalnav = (props)=> {
             <br/>
             <li>
             <NavLink to="/" name="about" activeClassname='active' id="link"><b><i className="fa fa-info-circle"></i>  About</b></NavLink>
+            </li>
+            <br/>
+            <li>
+            <NavLink to={elink} name="editprofile" activeClassname='active' id="link"><b><i class="fa fa-user-pen"></i>  Edit Profile</b></NavLink>
             </li>
             <br/>
             

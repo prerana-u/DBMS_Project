@@ -9,17 +9,22 @@ import { CardActionArea, CardActions } from '@mui/material';
 
 import {Button} from '@mui/material';
 import RegisterPopup from './RegisterPopup';
-
+import { createClient } from "@supabase/supabase-js";
 export default function MultiActionAreaCard(props) {
 
   const navigate=useNavigate();
+  const supabase = createClient("https://npropcvowslhzxxaigvi.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wcm9wY3Zvd3NsaHp4eGFpZ3ZpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3OTM5OTg3NywiZXhwIjoxOTk0OTc1ODc3fQ.iJ_vCpYUyRFEIP3ZgfYVZvXaQoAHLK7OtierGGpasOA");
+  const { data, error } = supabase
+  .storage
+  .from('pictures')
+  .getPublicUrl('public/'+props.fname+'.png') 
   return (
-    <Card sx={{ maxWidth: 345 }} >
+    <Card sx={{ maxWidth: 325 }}>
       <CardActionArea>
         <CardMedia
           component="img"
-          height="180"
-          image={cardimg}
+          height="230"
+          image={data.publicUrl}
           alt="green iguana"
         />
        
@@ -34,7 +39,7 @@ export default function MultiActionAreaCard(props) {
        
       </CardActionArea>
       <CardActions >
-      {sessionStorage.email === undefined || localStorage.email === undefined? <Button onClick={()=>{navigate("/login")}}>Login</Button>:  <RegisterPopup fid={props.fid}/> }
+      {sessionStorage.email === undefined || localStorage.email === undefined? <Button onClick={()=>{navigate("/login")}} >Login</Button>:  <RegisterPopup fid={props.fid}/> }
       </CardActions>
     </Card>
   );

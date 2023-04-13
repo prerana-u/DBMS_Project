@@ -2,10 +2,15 @@ import * as React from 'react';
 import './CSS/profilecard.css';
 import Axios from 'axios';
 import { useState } from 'react';
+import { Button } from '@mui/material';
+
+import ReactJsAlert from "reactjs-alert";
 import { createClient } from "@supabase/supabase-js";
 export default function ProfileCard(props) {
 	const [skillData, setSkillData]= useState([]);
-	
+	const [status, setStatus] = useState(false);
+	const [type, setType] = useState("Success");
+	const [title, setTitle] = useState("Request Sent");
 	const fetchdata = () => {
   
 		Axios.get("http://localhost:3001/getskill_studentdash", {
@@ -29,7 +34,14 @@ export default function ProfileCard(props) {
 
   return (
     <div className="card-container" onLoad={fetchdata}>
-	
+	    <ReactJsAlert
+        status={status} // true or false
+        type={type} // success, warning, error, info
+        title={title}
+        quotes= {true} 
+        quote= "Request has been sent to the student!"
+        Close={() => setStatus(false)}
+      />
 	<img className="round" src={data.publicUrl} alt="user" />
 	<h3>{props.name}</h3>
 	<h6>{props.semester} {props.sclass}</h6>
@@ -45,7 +57,9 @@ export default function ProfileCard(props) {
 		})}
 			
 		</ul>
+		{localStorage.getItem("isRecruit")=="true"?<Button style={{color:'white'}} onClick={()=>{localStorage.setItem("Selected",props.regno);setStatus(true);}}>Recruit</Button>:console.log("none")}
 	</div>
+	
     </div>
   );
 }
