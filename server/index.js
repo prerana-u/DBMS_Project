@@ -160,7 +160,7 @@ app.get('/teachdata', (req, res)=> {
 app.get('/studata', (req, res)=> {
   console.log("Hi"+sessions.email);
   db.execute(
-    "Select name,semester,class,dep,regno,email,phone from student where email=?",
+    "Select name,semester,class,dep,regno,email,phone,no_of_fest,no_of_project from student where email=?",
     [sessions.email],
     (err, result)=> {
     //console.log(err);
@@ -250,14 +250,57 @@ app.get('/getskills', (req, res) => {
           }
         );
   });
+
   app.get('/get_reg_fest', (req, res) => {
     const regno=req.query.regno;
     db.execute(
-          "SELECT distinct f.fid,f.fname,f.org from fest f, reg_fests r where f.fid=r.festid and r.regno="+regno,
+          "SELECT distinct f.fid,f.fname,f.org,DATE_FORMAT(f.sdate,'%d-%m-%y') as start,DATE_FORMAT(f.edate,'%d-%m-%y') as end  from fest f, reg_fests r where f.fid=r.festid and r.regno="+regno+" and f.sdate<curdate()",
           
           (err, result)=> {
          // console.log(err);
         //  console.log(result);
+          res.send(result);
+          }
+        );
+  });
+
+  app.post('/get_feedback',(req,res)=>{
+    const fid=req.body.fid;
+    const regno=req.body.reg;
+    const feed=req.body.feedback;
+    const rating=req.body.rating;
+    console.log(fid, regno,feed);
+    db.execute(
+        "insert into fest_feedback values(?,?,?,?)",[regno,fid,feed,rating],
+        (err, result)=> {
+          // console.log(err);
+         //  console.log(result);
+           res.send(result);
+        }
+    );
+  });
+
+  app.get('/get_reg_fest_upcoming', (req, res) => {
+    const regno=req.query.regno;
+    db.execute(
+          "SELECT distinct f.fid,f.fname,f.org,DATE_FORMAT(f.sdate,'%d-%m-%y') as start,DATE_FORMAT(f.edate,'%d-%m-%y') as end  from fest f, reg_fests r where f.fid=r.festid and r.regno="+regno+" and f.sdate>=curdate()",
+          
+          (err, result)=> {
+         // console.log(err);
+        //  console.log(result);
+          res.send(result);
+          }
+        );
+  });
+
+  app.get('/get_reg_fest_current_month', (req, res) => {
+    const regno=req.query.regno;
+    db.execute(
+          " select count(*) as curmonth from reg_fests where festid in (select fid from fest where month(sdate)=month(now())) and regno="+regno,
+          
+          (err, result)=> {
+         // console.log(err);
+         console.log(result);
           res.send(result);
           }
         );

@@ -22,7 +22,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import headimg from "./Images/headimg_stu.png";
 import skill from "./Images/skill.png";
-import ach from "./Images/achievement.png";
+import ach from "./Images/stats.png";
 import festspart from "./Images/festspart.png";
 import projectpart from "./Images/projectpart.png";
 import nodataicon from "./Images/Circle.json";
@@ -37,8 +37,12 @@ function Student_Dash() {
   const [ssem, setSsem] = useState("");
   const [sdep, setSdep] = useState("");
   const [FestDets, setFestDets] = useState([]);
+  const [UpFestDets, setUpFestDets] = useState([]);
   const [ProjDets, setProjDets] = useState([]);
   const [sregno, setSregno] = useState("");
+  const [NoOfFest,setNoOfFest]=useState(0);
+  const [NoCurMonth,setNoCurMonth]=useState(0);
+  const [NoOfProject,setNoOfProject]=useState(0);
   const [adv_skills, setAdv_skills] = useState([]);
   const [int_skills, setInt_skills] = useState([]);
   const [new_skills, setNew_skills] = useState([]);
@@ -76,6 +80,8 @@ function Student_Dash() {
       setSsem(response.data[0].semester);
       setSdep(response.data[0].dep);
       setSregno(response.data[0].regno);
+      setNoOfFest(response.data[0].no_of_fest);
+      setNoOfProject(response.data[0].no_of_project);
       console.log(localStorage.getItem("Selected")+" "+response.data[0].regno);
       if(localStorage.getItem("Selected")==response.data[0].regno){
         setStatus(true);
@@ -126,6 +132,33 @@ function Student_Dash() {
           setFestDets(["No Data"]);
           // console.log(FestDets);
         }
+     
+      });
+      axios
+      .get("http://localhost:3001/get_reg_fest_upcoming", {
+        params: { regno: sessionStorage.getItem("regno") },
+      })
+      .then((response) => {
+        if (response.data.length > 0) {
+          setUpFestDets(response.data);
+           console.log(UpFestDets);
+        } else {
+          setUpFestDets(["No Data"]);
+          console.log(UpFestDets);
+          // console.log(FestDets);
+        }
+     
+      });
+      axios
+      .get("http://localhost:3001/get_reg_fest_current_month", {
+        params: { regno: sessionStorage.getItem("regno") },
+      })
+      .then((response) => {
+        if (response.data.length > 0) {
+          //console.log(response.data[0].curmonth);
+          setNoCurMonth(response.data[0].curmonth);
+          // console.log(FestDets);
+        } 
      
       });
 
@@ -246,7 +279,8 @@ function Student_Dash() {
                         padding: "10px",
                         height: "fit-content",
                         overflow: "hidden",
-                        width: "400px",
+                        width: "fit-content",
+                      
                       }}
                     >
                       <div
@@ -259,7 +293,7 @@ function Student_Dash() {
                       >
                         Developed Skills:{" "}
                       </div>
-                      <div style={{ width: "100%" }}>
+                      <div style={{ width: 'fit-content', marginLeft:'150px' }}>
                         <ul type="disc">
                           {adv_skills.map((val, key) => {
                             return <li key={key}>{val}</li>;
@@ -326,41 +360,85 @@ function Student_Dash() {
             </div>
             <div
               className="card_sd2"
-              style={{
+              
+            >
+              <div className="content"
+               style={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-              }}
-            >
-              <div className="content">
+               }}
+              >
                 <div className="edit">
                   <i
-                    className="fa-regular fa-pen-to-square fa-2xl"
+                  className="fa-solid fa-up-right-from-square fa-xl"
                     style={{ color: "#196EDA" }}
                   ></i>
                 </div>
                 <img src={ach} alt="skill" />
                 <div className="content-text">
-                  <label className="l1">
-                    {" "}
-                    Your Achievement
+                  <label className="l1" style={{textAlign:'center', marginLeft:'40px'}}>
+                
+                    Your Statistics
                     <hr
                       style={{
                         width: "102%",
                         marginTop: "2%",
                         height: "3px",
                         backgroundColor: "black",
+                        marginBottom:'20px',
                       }}
                     />
                   </label>
-                  <div
-                    id="react-logo"
-                    style={{
-                      width: "200px",
-                      height: "200px",
-                      marginLeft: "40px",
-                    }}
-                  />
+                      <div className="stats">
+                      <div
+                        
+                        style={{
+                          float: "left",
+                          alignItems: "center",
+                          padding: "5px",
+                          width: "fit-content",
+                        }}
+                      >
+                       <div  className="stats-text"> <i class="fa fa-medal"></i> No. of Fests: </div><div className="stat-value">  {NoOfFest}</div>
+                      </div>
+                      <br/>
+                      <div
+                      
+                        style={{
+                          float: "left",
+                          alignItems: "left",
+                          padding: "5px",
+                          width: "fit-content",
+                        }}
+                      >
+                         <div  className="stats-text"> <i class="fa-solid fa-laptop-code"></i>  No. of Projects:</div><div className="stat-value"> {NoOfProject} </div>
+                      </div>
+                      <br/>
+                      <div
+                      
+                        style={{
+                          float: "left",
+                          alignItems: "left",
+                          padding: "5px",
+                          width: "fit-content",
+                        }}
+                      >
+                      <div  className="stats-text"><i class="fa-solid fa-clock"></i> Upcoming Fests: </div> <div className="stat-value">{UpFestDets.length}</div>
+                      </div>
+                      <br/>
+                      <div
+                        
+                        style={{
+                          float: "left",
+                          alignItems: "left",
+                          padding: "5px",
+                          width: "fit-content",
+                        }}
+                      >
+                      <div  className="stats-text"> <i class="fa-solid fa-calendar-days"></i> Fests This Month: </div><div className="stat-value"> {NoCurMonth}</div>
+                      </div>
+                      </div>
                 </div>
               </div>
             </div>
@@ -387,10 +465,61 @@ function Student_Dash() {
                   return (
                     <SwiperSlide key={key}>
                       <Preview
+                      fid={val.fid}
                         name={val.fname}
                         org={val.org}
                         start={val.start}
                         end={val.end}
+                        fed = {0}
+                      />
+                    </SwiperSlide>
+                  );
+                } else {
+                  return (
+                    <div key={key}>
+                      <div
+                        id="react-logo3"
+                        style={{ marginTop: "-350px", marginLeft: "100px" }}
+                      >
+                        <img
+                          style={{ width: "400px", height: "350px" }}
+                          src={nodatafound}
+                          alt="no data"
+                        ></img>
+                      </div>
+                    </div>
+                  );
+                }
+              })}
+            </Swiper>
+          </div>
+        </div>
+        <div className="project_worked">
+          <div className="text_data">
+            <div className="project_img">
+              <img src={festspart} alt="skill" />
+            </div>
+            <div className="project_text">Upcoming Fests </div>
+          </div>
+          <div className="vl"></div>
+          <div className="fest-card">
+            <Swiper
+              spaceBetween={50}
+              slidesPerView={2}
+              onSlideChange={() => console.log("slide change")}
+              onSwiper={(swiper) => console.log(swiper)}
+              className="swiper1"
+            >
+              {UpFestDets.map((val, key) => {
+                if (UpFestDets[0] !== "No Data") {
+                  return (
+                    <SwiperSlide key={key}>
+                      <Preview
+                        name={val.fname}
+                        org={val.org}
+                        start={val.start}
+                        end={val.end}
+                        fed = {1}
                       />
                     </SwiperSlide>
                   );
