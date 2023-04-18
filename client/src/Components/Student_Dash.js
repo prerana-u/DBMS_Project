@@ -3,23 +3,24 @@ import "../App.css";
 import "./CSS/studentdash.css";
 import Verticalnav from "./VerticalNav";
 import Preview from "./StudentPro";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 //import AddFest from './Addfest';
 //import AddProj from './AddProj';
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Keyboard, Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/scrollbar";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { useNavigate } from "react-router-dom";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import headimg from "./Images/headimg_stu.png";
 import skill from "./Images/skill.png";
 import ach from "./Images/stats.png";
@@ -28,7 +29,8 @@ import projectpart from "./Images/projectpart.png";
 import nodataicon from "./Images/Circle.json";
 import lottie from "lottie-web";
 import nodatafound from "./Images/nodatafound.png";
-
+import StudentChart from "./StudentChart";
+import ChartPopup from "./ChartPopup";
 function Student_Dash() {
   const navigate = useNavigate();
   const [status, setStatus] = useState(false);
@@ -40,12 +42,13 @@ function Student_Dash() {
   const [UpFestDets, setUpFestDets] = useState([]);
   const [ProjDets, setProjDets] = useState([]);
   const [sregno, setSregno] = useState("");
-  const [NoOfFest,setNoOfFest]=useState(0);
-  const [NoCurMonth,setNoCurMonth]=useState(0);
-  const [NoOfProject,setNoOfProject]=useState(0);
+  const [NoOfFest, setNoOfFest] = useState(0);
+  const [NoCurMonth, setNoCurMonth] = useState(0);
+  const [NoOfProject, setNoOfProject] = useState(0);
   const [adv_skills, setAdv_skills] = useState([]);
   const [int_skills, setInt_skills] = useState([]);
   const [new_skills, setNew_skills] = useState([]);
+  const [NoOfSlides, setNoOfSlides] = useState(3);
   //const [props1,setSkill]=useState([]);
   var arr = [];
   var arr1 = [];
@@ -57,13 +60,15 @@ function Student_Dash() {
     localStorage.removeItem("Selected");
   };
   const handleAccept = () => {
-    axios.post("http://localhost:3001/reg_project", {
-            pid:localStorage.getItem("Pid"),
-            tid:localStorage.getItem("Tid"),
-            regno:localStorage.getItem("Selected"),
-            }).then((response) => {
-               console.log(response);
-            });
+    axios
+      .post("http://localhost:3001/reg_project", {
+        pid: localStorage.getItem("Pid"),
+        tid: localStorage.getItem("Tid"),
+        regno: localStorage.getItem("Selected"),
+      })
+      .then((response) => {
+        console.log(response);
+      });
     handleClose();
     window.location.reload(false);
   };
@@ -72,7 +77,7 @@ function Student_Dash() {
     arr = [];
     arr1 = [];
     arr2 = [];
-   
+
     axios.get("http://localhost:3001/studata", {}).then((response) => {
       sessionStorage.studentName = response.data[0].name;
       setSname(response.data[0].name);
@@ -82,8 +87,10 @@ function Student_Dash() {
       setSregno(response.data[0].regno);
       setNoOfFest(response.data[0].no_of_fest);
       setNoOfProject(response.data[0].no_of_project);
-      console.log(localStorage.getItem("Selected")+" "+response.data[0].regno);
-      if(localStorage.getItem("Selected")==response.data[0].regno){
+      console.log(
+        localStorage.getItem("Selected") + " " + response.data[0].regno
+      );
+      if (localStorage.getItem("Selected") == response.data[0].regno) {
         setStatus(true);
         console.log(status);
       }
@@ -132,24 +139,22 @@ function Student_Dash() {
           setFestDets(["No Data"]);
           // console.log(FestDets);
         }
-     
       });
-      axios
+    axios
       .get("http://localhost:3001/get_reg_fest_upcoming", {
         params: { regno: sessionStorage.getItem("regno") },
       })
       .then((response) => {
         if (response.data.length > 0) {
           setUpFestDets(response.data);
-           console.log(UpFestDets);
+          console.log(UpFestDets);
         } else {
           setUpFestDets(["No Data"]);
           console.log(UpFestDets);
           // console.log(FestDets);
         }
-     
       });
-      axios
+    axios
       .get("http://localhost:3001/get_reg_fest_current_month", {
         params: { regno: sessionStorage.getItem("regno") },
       })
@@ -158,11 +163,10 @@ function Student_Dash() {
           //console.log(response.data[0].curmonth);
           setNoCurMonth(response.data[0].curmonth);
           // console.log(FestDets);
-        } 
-     
+        }
       });
 
-      axios
+    axios
       .get("http://localhost:3001/get_reg_project", {
         params: { regno: sessionStorage.getItem("regno") },
       })
@@ -174,7 +178,6 @@ function Student_Dash() {
           setProjDets(["No Data"]);
           // console.log(FestDets);
         }
-     
       });
   };
 
@@ -194,29 +197,27 @@ function Student_Dash() {
 
   return (
     <div>
-      <Verticalnav />
+      <Verticalnav role="student" />
       <div className="container">
-      <Dialog
-        open={status}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Project Enquiry"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            You have been invited to join Project X
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Decline</Button>
-          <Button onClick={handleAccept} autoFocus>
-            Accept
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <Dialog
+          open={status}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"Project Enquiry"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              You have been invited to join the {localStorage.getItem("Pname")}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Decline</Button>
+            <Button onClick={handleAccept} autoFocus>
+              Accept
+            </Button>
+          </DialogActions>
+        </Dialog>
         <div className="heading_sd">
           <div className="headingcontent1">
             <div className="headtext">
@@ -233,7 +234,7 @@ function Student_Dash() {
             </div>
           </div>
         </div>
-        <div className="main_content">
+        <div className="main_content1">
           <div className="content_buttons">
             <div className="card_sd">
               <div
@@ -280,7 +281,6 @@ function Student_Dash() {
                         height: "fit-content",
                         overflow: "hidden",
                         width: "fit-content",
-                      
                       }}
                     >
                       <div
@@ -293,7 +293,9 @@ function Student_Dash() {
                       >
                         Developed Skills:{" "}
                       </div>
-                      <div style={{ width: 'fit-content', marginLeft:'150px' }}>
+                      <div
+                        style={{ width: "fit-content", marginLeft: "150px" }}
+                      >
                         <ul type="disc">
                           {adv_skills.map((val, key) => {
                             return <li key={key}>{val}</li>;
@@ -358,27 +360,24 @@ function Student_Dash() {
                 </div>
               </div>
             </div>
-            <div
-              className="card_sd2"
-              
-            >
-              <div className="content"
-               style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-               }}
+            <div className="card_sd2">
+              <div
+                className="content"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
               >
                 <div className="edit">
-                  <i
-                  className="fa-solid fa-up-right-from-square fa-xl"
-                    style={{ color: "#196EDA" }}
-                  ></i>
+                  <ChartPopup role="student"/>
                 </div>
                 <img src={ach} alt="skill" />
                 <div className="content-text">
-                  <label className="l1" style={{textAlign:'center', marginLeft:'40px'}}>
-                
+                  <label
+                    className="l1"
+                    style={{ textAlign: "center", marginLeft: "40px" }}
+                  >
                     Your Statistics
                     <hr
                       style={{
@@ -386,59 +385,72 @@ function Student_Dash() {
                         marginTop: "2%",
                         height: "3px",
                         backgroundColor: "black",
-                        marginBottom:'20px',
+                        marginBottom: "20px",
                       }}
                     />
                   </label>
-                      <div className="stats">
-                      <div
-                        
-                        style={{
-                          float: "left",
-                          alignItems: "center",
-                          padding: "5px",
-                          width: "fit-content",
-                        }}
-                      >
-                       <div  className="stats-text"> <i class="fa fa-medal"></i> No. of Fests: </div><div className="stat-value">  {NoOfFest}</div>
+                  <div className="stats">
+                    <div
+                      style={{
+                        float: "left",
+                        alignItems: "center",
+                        padding: "5px",
+                        width: "fit-content",
+                      }}
+                    >
+                      <div className="stats-text">
+                        {" "}
+                        <i className="fa fa-medal"></i> No. of Fests:{" "}
                       </div>
-                      <br/>
-                      <div
-                      
-                        style={{
-                          float: "left",
-                          alignItems: "left",
-                          padding: "5px",
-                          width: "fit-content",
-                        }}
-                      >
-                         <div  className="stats-text"> <i class="fa-solid fa-laptop-code"></i>  No. of Projects:</div><div className="stat-value"> {NoOfProject} </div>
+                      <div className="stat-value"> {NoOfFest}</div>
+                    </div>
+                    <br />
+                    <div
+                      style={{
+                        float: "left",
+                        alignItems: "left",
+                        padding: "5px",
+                        width: "fit-content",
+                      }}
+                    >
+                      <div className="stats-text">
+                        {" "}
+                        <i className="fa-solid fa-laptop-code"></i> No. of
+                        Projects:
                       </div>
-                      <br/>
-                      <div
-                      
-                        style={{
-                          float: "left",
-                          alignItems: "left",
-                          padding: "5px",
-                          width: "fit-content",
-                        }}
-                      >
-                      <div  className="stats-text"><i class="fa-solid fa-clock"></i> Upcoming Fests: </div> <div className="stat-value">{UpFestDets.length}</div>
+                      <div className="stat-value"> {NoOfProject} </div>
+                    </div>
+                    <br />
+                    <div
+                      style={{
+                        float: "left",
+                        alignItems: "left",
+                        padding: "5px",
+                        width: "fit-content",
+                      }}
+                    >
+                      <div className="stats-text">
+                        <i className="fa-solid fa-clock"></i> Upcoming Fests:{" "}
+                      </div>{" "}
+                      <div className="stat-value">{UpFestDets.length}</div>
+                    </div>
+                    <br />
+                    <div
+                      style={{
+                        float: "left",
+                        alignItems: "left",
+                        padding: "5px",
+                        width: "fit-content",
+                      }}
+                    >
+                      <div className="stats-text">
+                        {" "}
+                        <i className="fa-solid fa-calendar-days"></i> Fests This
+                        Month:{" "}
                       </div>
-                      <br/>
-                      <div
-                        
-                        style={{
-                          float: "left",
-                          alignItems: "left",
-                          padding: "5px",
-                          width: "fit-content",
-                        }}
-                      >
-                      <div  className="stats-text"> <i class="fa-solid fa-calendar-days"></i> Fests This Month: </div><div className="stat-value"> {NoCurMonth}</div>
-                      </div>
-                      </div>
+                      <div className="stat-value"> {NoCurMonth}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -454,8 +466,23 @@ function Student_Dash() {
           <div className="vl"></div>
           <div className="fest-card">
             <Swiper
+              modules={[Keyboard, Navigation, Pagination]}
               spaceBetween={50}
+              centeredSlides={false}
               slidesPerView={2}
+              navigation={true}
+              pagination={{
+                clickable: true,
+              }}
+              keyboard={{
+                enabled: true,
+              }}
+              breakpoints={{
+                769: {
+                  slidesPerView: 2,
+                  slidesPerGroup: 2,
+                },
+              }}
               onSlideChange={() => console.log("slide change")}
               onSwiper={(swiper) => console.log(swiper)}
               className="swiper1"
@@ -465,12 +492,12 @@ function Student_Dash() {
                   return (
                     <SwiperSlide key={key}>
                       <Preview
-                      fid={val.fid}
+                        fid={val.fid}
                         name={val.fname}
                         org={val.org}
                         start={val.start}
                         end={val.end}
-                        fed = {0}
+                        fed={0}
                       />
                     </SwiperSlide>
                   );
@@ -504,8 +531,23 @@ function Student_Dash() {
           <div className="vl"></div>
           <div className="fest-card">
             <Swiper
+              modules={[Keyboard, Navigation, Pagination]}
               spaceBetween={50}
+              centeredSlides={false}
               slidesPerView={2}
+              navigation={true}
+              pagination={{
+                clickable: true,
+              }}
+              keyboard={{
+                enabled: true,
+              }}
+              breakpoints={{
+                769: {
+                  slidesPerView: 2,
+                  slidesPerGroup: 2,
+                },
+              }}
               onSlideChange={() => console.log("slide change")}
               onSwiper={(swiper) => console.log(swiper)}
               className="swiper1"
@@ -519,7 +561,7 @@ function Student_Dash() {
                         org={val.org}
                         start={val.start}
                         end={val.end}
-                        fed = {1}
+                        fed={1}
                       />
                     </SwiperSlide>
                   );
@@ -543,6 +585,7 @@ function Student_Dash() {
             </Swiper>
           </div>
         </div>
+
         <div className="project_worked">
           <div className="text_data">
             <div className="project_img">
@@ -552,9 +595,24 @@ function Student_Dash() {
           </div>
           <div className="vl"></div>
           <div className="fest-card">
-          <Swiper
+            <Swiper
+              modules={[Keyboard, Navigation, Pagination]}
               spaceBetween={50}
+              centeredSlides={false}
               slidesPerView={2}
+              navigation={true}
+              pagination={{
+                clickable: true,
+              }}
+              keyboard={{
+                enabled: true,
+              }}
+              breakpoints={{
+                769: {
+                  slidesPerView: 2,
+                  slidesPerGroup: 2,
+                },
+              }}
               onSlideChange={() => console.log("slide change")}
               onSwiper={(swiper) => console.log(swiper)}
               className="swiper1"
@@ -566,8 +624,8 @@ function Student_Dash() {
                       <Preview
                         name={val.pname}
                         org={val.skill1}
-                        start=""
-                        end=""
+                        start={val.start}
+                        end={val.end}
                       />
                     </SwiperSlide>
                   );
@@ -589,7 +647,6 @@ function Student_Dash() {
                 }
               })}
             </Swiper>
-            
           </div>
         </div>
       </div>

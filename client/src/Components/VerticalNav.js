@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import './CSS/nav.css';
 
 import sflogo from './Images/sflogo.png';
-
+import { HashLink } from 'react-router-hash-link';
 import { createClient } from "@supabase/supabase-js";
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -28,12 +28,13 @@ const Verticalnav = (props)=> {
       setslink("/search");
       setelink("/editprofileteach");
      
-      //console.log(uname);
+      console.log(uname);
     }
     else
     {
       setUname(sessionStorage.studentName);
       setnlink("/studentdash");
+      console.log(uname);
     //  console.log( document.getElementById("s").value);
       document.getElementById("s").innerHTML="<b>Edit Skills</b>";
       document.getElementById('sicon').className="fa fa-pencil";
@@ -47,11 +48,8 @@ const Verticalnav = (props)=> {
  function logout()
  {
    
-   
     sessionStorage.clear();
-  
     localStorage.removeItem("email");
-    
     window.location="http://localhost:3000/login";
  }
 
@@ -64,7 +62,7 @@ const Verticalnav = (props)=> {
  //console.log(data.publicUrl);
 
  useEffect(()=>{
- 
+  fetchdata();
   console.log(uname);
 },[uname]);
  
@@ -73,7 +71,7 @@ const Verticalnav = (props)=> {
  
   
   return (
-    <div className='VNavContainer' onLoad={()=>{ fetchdata()}}>
+    <div className='VNavContainer' >
       <nav className='vnav'>
          <div className="profile">
           <div className='logo1'><img src={sflogo} alt="navimg" /></div>
@@ -94,7 +92,8 @@ const Verticalnav = (props)=> {
             </li>
             <br/>
             <li>
-            <NavLink to="/" name="about" activeClassname='active' id="link"><b><i className="fa fa-info-circle"></i>  About</b></NavLink>
+            <HashLink to="/#about" name="about" activeClassname='active' id="link"><b><i className="fa fa-info-circle"></i>  About</b></HashLink>
+         
             </li>
             <br/>
             <li>

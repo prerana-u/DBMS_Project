@@ -23,6 +23,7 @@
     "react-dom": "^18.2.0",
     "react-native-push-notification": "^8.1.1",
     "react-router-dom": "^6.8.1",
+    "react-router-hash-link": "^2.4.3",
     "react-scripts": "^5.0.1",
     "reactjs-alert": "^2.2.0",
     "reactjs-popup": "^2.0.5",
