@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 import { useState, useEffect } from 'react';
 import SkillFormUpdate from './SkillForm_Update';
 import { useNavigate } from "react-router-dom";
-
+import Verticalnav from './VerticalNav';
 import Axios from 'axios';
 
 export default function SkillForm() 
@@ -37,7 +37,10 @@ export default function SkillForm()
   }, []);
 
   return (
-    <div id="sf" >
+    <div>
+     <Verticalnav role="student" />
+     <div id="sf" >
+    
     <h2>Skill Updation Form</h2>
     <h3>Enter your Skills below</h3>
     { isSkills ?  <SkillFormUpdate/> : <AddSkills/>
@@ -45,6 +48,8 @@ export default function SkillForm()
    
   
     <Button variant="contained" onClick={SendSkills} style={{marginTop:'20px'}}>Submit</Button> 
+    </div>
+    
     </div>
     
   );

@@ -309,7 +309,7 @@ app.get('/getskills', (req, res) => {
   app.get('/get_reg_project', (req, res) => {
     const regno=req.query.regno;
     db.execute(
-          "SELECT distinct p.pid,p.pname,p.skill1 from project p, reg_projects r where p.pid=r.pid and r.regno="+regno,
+          " SELECT distinct p.pid,p.pname,p.skill1,DATE_FORMAT(p.sdate,'%d-%m-%y') as start, date_format(DATE_ADD(p.sdate, INTERVAL +2 MONTH), '%d-%m-%y') as end from project p, reg_projects r where p.pid=r.pid and r.regno="+regno+" order by p.sdate",
           
           (err, result)=> {
          // console.log(err);
@@ -363,7 +363,7 @@ app.post('/setskills', (req, res)=> {
 
       const tid=req.query.tid;
       db.execute(
-          "SELECT fid,fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start,DATE_FORMAT(edate,'%d-%m-%y') as end FROM fest where sdate <= CURDATE() and tid="+tid,
+          "SELECT fid,fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start,DATE_FORMAT(edate,'%d-%m-%y') as end FROM fest where sdate <= CURDATE() and tid="+tid+" order by sdate",
           (err, result)=> {
               if (err) {
                   res.send({err: err});
@@ -381,7 +381,7 @@ app.post('/setskills', (req, res)=> {
         const tid=req.query.tid;
       
         db.execute(
-            "SELECT fid, fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start, DATE_FORMAT(edate,'%d-%m-%y') as end FROM fest where sdate >= CURDATE() and tid="+tid,
+            "SELECT fid, fname,org,DATE_FORMAT(sdate,'%d-%m-%y') as start, DATE_FORMAT(edate,'%d-%m-%y') as end FROM fest where sdate >= CURDATE() and tid="+tid+" order by sdate",
             (err, result)=> {
                 if (err) {
                     res.send({err: err});
@@ -570,6 +570,75 @@ app.post('/setskills', (req, res)=> {
     app.get('/student-logout', function (req, res, next) {
       sessions.email = undefined;
       res.send('success');
+  });
+
+  app.get('/getchart', (req, res)=> {
+    const regno = req.query.regno;
+    
+    db.execute(
+      "select count(*) as y, monthname(sdate) as x from fest where fid in(select distinct festid from reg_fests where regno="+regno+") group by month(sdate) order by sdate;",
+    
+      (err, result)=> {
+   //  console.log(err);
+      console.log(result);
+      res.send(result);
+      }
+    );
+  });
+
+  app.get('/getchartproject', (req, res)=> {
+    const regno = req.query.regno;
+    
+    db.execute(
+      "select count(*) as y, monthname(sdate) as x from project where pid in(select distinct pid from reg_projects where regno="+regno+") group by month(sdate) order by sdate;",
+    
+      (err, result)=> {
+   //  console.log(err);
+      console.log(result);
+      res.send(result);
+      }
+    );
+  });
+
+  app.get('/getchartteach', (req, res)=> {
+    const tid = req.query.tid;
+    
+    db.execute(
+      "select count(*) as y, monthname(sdate) as x from fest where tid="+tid+"  group by month(sdate) order by sdate;",
+    
+      (err, result)=> {
+   //  console.log(err);
+      console.log(result);
+      res.send(result);
+      }
+    );
+  });
+
+  app.get('/getchartprojectteach', (req, res)=> {
+    const tid = req.query.tid;
+    
+    db.execute(
+      "select count(*) as y, monthname(sdate) as x from project where tid="+tid+"  group by month(sdate) order by sdate;",
+    
+      (err, result)=> {
+   //  console.log(err);
+      console.log(result);
+      res.send(result);
+      }
+    );
+  });
+
+  app.get('/get_no_of_fest_cur_month', (req, res) => {
+    const tid=req.query.tid;
+    db.execute(
+          "  select count(*) as fest_this_month from fest where tid="+tid+" and month(sdate)=month(now())",
+          
+          (err, result)=> {
+         // console.log(err);
+      //   console.log(result);
+          res.send(result);
+          }
+        );
   });
   
 

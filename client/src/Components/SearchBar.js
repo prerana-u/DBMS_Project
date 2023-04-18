@@ -24,7 +24,7 @@ function SearchBar() {
      console.log(response);
      console.log(response.data);
      var s=document.getElementById('input-with-icon-adornment');
-     if(sessionStorage.getItem("Skills")!=undefined && s.value=="Search for a Skill or a Student.." )
+     if(sessionStorage.getItem("Skills")!=undefined && s.value=="Search for a Skill..." )
      {
       s.value=sessionStorage.getItem("Skills");
       setSkills(sessionStorage.getItem("Skills"));
@@ -55,14 +55,14 @@ function SearchBar() {
     };
 
   const clearInput = () => {
-    if( document.getElementById('input-with-icon-adornment').value==="Search for a Skill or a Student..")
+    if( document.getElementById('input-with-icon-adornment').value==="Search for a Skill...")
     document.getElementById('input-with-icon-adornment').value="";
 
   }
   const defaultInput=()=>{
     var s=document.getElementById('input-with-icon-adornment').value;
     if(s==="")
-    document.getElementById('input-with-icon-adornment').value="Search for a Skill or a Student..";
+    document.getElementById('input-with-icon-adornment').value="Search for a Skill...";
     else
     console.log(skills);
 
@@ -85,7 +85,7 @@ function SearchBar() {
       <Input
           id="input-with-icon-adornment"
           className="searchBar"
-          defaultValue="Search for a Skill or a Student.."
+          defaultValue="Search for a Skill..."
           onChange={(e) =>{
             setSkills(e.target.value);
          }}

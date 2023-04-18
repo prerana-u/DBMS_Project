@@ -8,6 +8,9 @@ import "swiper/css";
 import "swiper/css/scrollbar";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import target from "./Images/target.png";
+import contact from "./Images/contact.png";
+import loc from "./Images/location.png";
 import { useState } from 'react';
 import MultiActionAreaCard from './MultiActionAreaCard';
 function Homepage() {
@@ -89,22 +92,49 @@ function Homepage() {
                 })} 
             </Swiper> 
     </div>
-  {/*}  <h3 id="uptext">Upcoming Projects</h3>
-    <div id="up">
-    <Swiper
-                spaceBetween={50}
-                slidesPerView={3}
-                onSlideChange={() => console.log('slide change')}
-                onSwiper={(swiper) => console.log(swiper)}
-            >
-            {ProjDets.map((val,key) => {
-            return (
-              
-                <SwiperSlide key={key}> <MultiActionAreaCard fname={val.pname} fdesc={val.skill1}/></SwiperSlide>
-            );
-                })} 
-            </Swiper> 
-              </div>-->*/}
+    <div id="about" >
+        <h1 style={{color: 'white',fontFamily:'Gugi,cursive',marginBottom:'30px'}}>About Us</h1>
+        <p id="abouttext">
+        SkillFord is a talent recognition platform that provides universities a one stop solution towards student skill management and event registrations. Students can share skill details based on their capabilities and interests, and teachers can then utilize these skills for different projects or college fests based on requirements. 
+        </p>
+        <div class="cards">
+            <div class="card" style={{float: "left;"}}>
+                <img src={target} alt="Avatar" style={{width: "fit-content",height: "240px"}}/>
+                <div class="container1">
+                    <h4><b>Our Goals</b></h4>
+                   <ol >
+                    <li>Easier Fest Management</li>
+                    <li>Greater Skill Recognition</li>
+                    <li>Better Organization</li>
+                   </ol>
+                </div>
+            </div>
+            <div class="card1" style={{float: "right;"}}>
+                <img src={contact} alt="Avatar" style={{width: "fit-content",height: "240px"}}/>
+                <div class="container1">
+                <h4><b>Contact Us</b></h4>
+                <ol >
+                    <li>Email: abcd@gmail.com</li>
+                    <li>Phone: +91 1201290201</li>
+                    <li>Instagram: @skillFord</li>
+                   </ol>
+                </div>
+            </div>
+            <div class="card1" style={{float: "right;"}}>
+                <img src={loc} alt="Avatar" style={{width: "fit-content",height: "240px"}}/>
+                <div class="container1">
+                <h4><b>Built For</b></h4>
+                <ol>
+                    <li>Universities</li>
+                    <li>Colleges</li>
+                    <li>Postgraduate Students</li>
+                   </ol>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+  
     </div>
   );
 }

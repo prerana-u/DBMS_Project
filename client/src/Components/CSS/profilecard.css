@@ -55,26 +55,32 @@ button.primary.ghost {
 	color: #02899C;
 }
 
-.skills {
+.s_skills {
 	background-color: #1BA2DE;
 	text-align: left;
 	padding: 15px;
     color: white;
-	height: 20vh;
+	height: 25vh;
 	margin-top: 30px;
 }
 
-.skills ul {
+.s_skills ul {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 }
 
-.skills ul li {
-	border: 1px solid #59ff00a9;
+.s_skills ul li {
+	border: 1px solid #d9f1ff;
 	border-radius: 2px;
 	display: inline-block;
 	font-size: 12px;
 	margin: 0 7px 7px 0;
 	padding: 7px;
+}
+
+#recbtn:hover{
+	border: 1px solid #d9f1ff;
+	background-color: transparent;
+	color:white;
 }

@@ -19,12 +19,13 @@ function App() {
     <Routes>
       <Route path="/" element={<Navbar />}>
         <Route index element={<HomePage />} />
-        <Route path="skillform" element={<SkillForm />} />
+      
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
     
       </Route>
         <Route path="td" element={<TeachDash />} />
+        <Route path="skillform" element={<SkillForm />} />
         <Route path="studentdash" element={<StudentDash />} />
         <Route path="search" element={<SearchBar />} />
         <Route path="festreg" element={<FestReg/>}/>

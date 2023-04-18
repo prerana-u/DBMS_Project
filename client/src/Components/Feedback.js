@@ -67,7 +67,7 @@ export default function Feedback(props) {
                     close => (
                         <div className='modal'>
                             <div className='content'>
-                            <Grid spacing={3}>
+                            <Grid columnspacing={3}>
                                 <br />
                                 <Card style={{ maxWidth: 450, padding: "20px 5px", margin: "0 auto" }}>
                                 <Typography gutterbottom variant="h3" align="center">

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Outlet, Link } from "react-router-dom";
+import { HashLink } from 'react-router-hash-link';
 import './CSS/navbar.css';
 import { useEffect, useState } from 'react';
 import logo from './Images/sflogo.png';
@@ -47,7 +48,7 @@ const Navbar= () =>{
               <Link to="/"><b><em> SkillFord</em></b></Link>
             </li>
             <li id="ab">
-              <Link to="/about"><b><i className="fa fa-info-circle"></i>  About</b></Link>
+            <HashLink to="/#about"><b><i className="fa fa-info-circle"></i>  About</b></HashLink>
               </li>
             <li id="log">
               <Link to={nlink} > <i className="fa fa-user-plus" id="ricon"></i><b id="register">  Register</b></Link>

@@ -47,8 +47,9 @@ export default function ProfileCard(props) {
 	<h6>{props.semester} {props.sclass}</h6>
 	<p>Department of {props.dep}</p>
 
-	<div className="skills">
-		<h6>Skills</h6>
+	<div className="s_skills">
+		<h5>Skills</h5>
+		<br/>
 		<ul>
 			{skillData.map((val,key)=>{
 			return(
@@ -57,7 +58,7 @@ export default function ProfileCard(props) {
 		})}
 			
 		</ul>
-		{localStorage.getItem("isRecruit")=="true"?<Button style={{color:'white'}} onClick={()=>{localStorage.setItem("Selected",props.regno);setStatus(true);}}>Recruit</Button>:console.log("none")}
+		{localStorage.getItem("isRecruit")=="true"?<Button variant="contained" size="small" id="recbtn" style={{backgroundColor:'white', fontWeight:'bold',color:'#1BA2DE', marginTop:'10px', marginBottom:'10px'}} onClick={()=>{localStorage.setItem("Selected",props.regno);setStatus(true);}}>Recruit</Button>:console.log("none")}
 	</div>
 	
     </div>

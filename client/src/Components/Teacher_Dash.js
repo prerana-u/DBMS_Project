@@ -15,10 +15,13 @@ import "swiper/css";
 import "swiper/css/scrollbar";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import nodatafound from "./Images/nodatafound.png";
 //import Preview from './component/preview_festcard';
 import nodataicon from "./Images/Circle.json";
 import lottie from "lottie-web";
 import headimg from './Images/headimg.png';
+import ach from "./Images/stats.png";
+import ChartPopup from './ChartPopup';
 //import Popup from 'reactjs-popup';
 //import axios from 'axios';
 //import {Carousel} from '@trendyol-js/react-carousel';
@@ -44,7 +47,7 @@ function TeachDash(props) {
     const [UpFestDets, setUpFestDets] = useState([]);
     const [ProjDets, setProjDets] = useState([]);
     const [UpProjDets, setUpProjDets] = useState([]);
-
+    const [NoCurMonth,setNoCurMonth] = useState(0);
     useEffect(() => { 
         axios.get("http://localhost:3001/preview_fest", {
        params:{tid:sessionStorage.getItem("tid")}
@@ -60,39 +63,7 @@ function TeachDash(props) {
         }
          //console.log(response.data);
       });
-      lottie.loadAnimation({
-         container: document.getElementById("react-logo"),
-         renderer: 'svg',
-         loop: false,
-         autoplay: true,
-         // animationData: // local json file,
-         path: 'https://assets5.lottiefiles.com/packages/lf20_mxuufmel.json',
-       });
-       lottie.loadAnimation({
-         container: document.getElementById("react-logo1"),
-         renderer: 'svg',
-         loop: false,
-         autoplay: true,
-         // animationData: // local json file,
-         path: 'https://assets5.lottiefiles.com/packages/lf20_mxuufmel.json',
-       });
-       lottie.loadAnimation({
-         container: document.getElementById("react-logo2"),
-         renderer: 'svg',
-         loop: false,
-         autoplay: true,
-         // animationData: // local json file,
-         path: 'https://assets5.lottiefiles.com/packages/lf20_mxuufmel.json',
-       });
-       lottie.loadAnimation({
-         container: document.getElementById("react-logo3"),
-         renderer: 'svg',
-         loop: false,
-         autoplay: true,
-         // animationData: // local json file,
-         path: 'https://assets5.lottiefiles.com/packages/lf20_mxuufmel.json',
-       });
-   
+    
     },[]);
 
     useEffect(() => { 
@@ -109,6 +80,18 @@ function TeachDash(props) {
            
           // console.log(response.data);
       })
+      axios.get("http://localhost:3001/get_no_of_fest_cur_month", {
+        params:{tid:sessionStorage.getItem("tid")}
+       }).then((response) => {
+           if(response.data.length>0)
+           {
+              setNoCurMonth(response.data[0].fest_this_month);
+           }
+        
+          
+         // console.log(response.data);
+     })
+     
  
   },[]);
 
@@ -169,6 +152,86 @@ function TeachDash(props) {
                <div className='card2'><AddProj/></div>
             </div>
          </div>
+         <div className="card_td">
+       
+          <div className="text_data">
+          <div className="edit" style={{marginLeft:'190%',marginTop:'-30px'}}>
+                  <ChartPopup role="teacher"/>
+          </div>
+            <div className="project_img">
+              <img src={ach} alt="skill" />
+            </div>
+            <div className="project_text" style={{marginBottom:'50px',marginLeft:'0px', fontSize:'38px'}}>Your Statistics</div>
+
+          </div>
+          <div className="vl" style={{marginLeft:'180px',marginTop:'13px'}}></div>
+          
+          <div className="stats" style={{marginTop:'50px',marginLeft:'160px',fontSize:'24px', color:'#196EDA', fontFamily:'Gugi,cursive'}}>
+         
+                    <div
+                      style={{
+                        float: "left",
+                        alignItems: "center",
+                        padding: "5px",
+                        width: "fit-content",
+                        
+                      }}
+                    >
+                      <div className="stats-text" >
+                        {" "}
+                        <i className="fa fa-medal"></i> No. of Fests: 
+                      </div>
+                      <div className="stat-value">{FestDets.length+UpFestDets.length}</div>
+                    </div>
+                    <br />
+                    <div
+                      style={{
+                        float: "left",
+                        alignItems: "left",
+                        padding: "5px",
+                        width: "fit-content",
+                      }}
+                    >
+                      <div className="stats-text">
+                        {" "}
+                        <i className="fa-solid fa-laptop-code"></i> No. of
+                        Projects:
+                      </div>
+                      <div className="stat-value">{ProjDets.length+UpProjDets.length}  </div>
+                    </div>
+                    <br />
+                    <div
+                      style={{
+                        float: "left",
+                        alignItems: "left",
+                        padding: "5px",
+                        width: "fit-content",
+                      }}
+                    >
+                      <div className="stats-text">
+                        <i className="fa-solid fa-clock"></i> Upcoming Fests:{" "}
+                      </div>{" "}
+                      <div className="stat-value">{UpFestDets.length}</div>
+                    </div>
+                    <br />
+                    <div
+                      style={{
+                        float: "left",
+                        alignItems: "left",
+                        padding: "5px",
+                        width: "fit-content",
+                      }}
+                    >
+                      <div className="stats-text">
+                        {" "}
+                        <i className="fa-solid fa-calendar-days"></i> Fests This
+                        Month:{" "}
+                      </div>
+                      <div className="stat-value"> {NoCurMonth} </div>
+                    </div>
+                  </div>
+        </div>
+        <br/>
          <div className="view_previous_fest">
             <div className='fest-text'>View Previous Fests </div>
             <div className='fest-card'>
@@ -206,7 +269,18 @@ function TeachDash(props) {
               else{
                  
                  return(
-                  <div id="react-logo" key={key} style={{ width: 350, height: 350, marginLeft:'35%',marginTop:'-350px' }} />
+                  <div key={key}>
+                  <div
+                    id="react-logo3"
+                    style={{ marginTop: "-350px", marginLeft: "100px" }}
+                  >
+                    <img
+                      style={{ width: "400px", height: "350px" }}
+                      src={nodatafound}
+                      alt="no data"
+                    ></img>
+                  </div>
+                </div>
                  )
               }
                 })} 
@@ -252,7 +326,18 @@ function TeachDash(props) {
                   
                   return(
                      
-                     <div id="react-logo1" key={key} style={{ width: 350, height: 350, marginLeft:'35%',marginTop:'-350px' }} />
+                     <div key={key}>
+                     <div
+                       id="react-logo3"
+                       style={{ marginTop: "-350px", marginLeft: "100px" }}
+                     >
+                       <img
+                         style={{ width: "400px", height: "350px" }}
+                         src={nodatafound}
+                         alt="no data"
+                       ></img>
+                     </div>
+                   </div>
                   )
                }
                 })}
@@ -263,10 +348,25 @@ function TeachDash(props) {
             <div className='fest-text'>View Previous Projects </div>
             <div className='fest-card'>
             <Swiper
-                spaceBetween={50}
-                slidesPerView={3}
-                onSlideChange={() => console.log('slide change')}
-                onSwiper={() => {}}
+                  modules={[Keyboard, Navigation, Pagination]}
+                  spaceBetween={50}
+                  centeredSlides={false}
+                  slidesPerView={3}
+                  navigation={true}
+                      pagination={{
+                        clickable: true,
+                      }}
+                      keyboard={{
+                          enabled: true,
+                        }}
+                        breakpoints={{
+                          769: {
+                            slidesPerView: 3,
+                            slidesPerGroup: 2,
+                          },
+                        }}
+                 onSlideChange={() => console.log('slide change')}
+                 onSwiper={(swiper) => console.log(swiper)}
                 className="swiper1"
             >
             {ProjDets.map((val,key) => {
@@ -280,7 +380,18 @@ function TeachDash(props) {
          else{
             
             return(
-             <div id="react-logo2" key={key} style={{ width: 350, height: 350, marginLeft:'35%',marginTop:'-350px' }} />
+               <div key={key}>
+               <div
+                 id="react-logo3"
+                 style={{ marginTop: "-350px", marginLeft: "100px" }}
+               >
+                 <img
+                   style={{ width: "400px", height: "350px" }}
+                   src={nodatafound}
+                   alt="no data"
+                 ></img>
+               </div>
+             </div>
             )
          }
            })} 
@@ -291,10 +402,25 @@ function TeachDash(props) {
             <div className='fest-text'>View Upcoming Projects </div>
             <div className='fest-card'>
             <Swiper
+                modules={[Keyboard, Navigation, Pagination]}
                 spaceBetween={50}
+                centeredSlides={false}
                 slidesPerView={3}
-                onSlideChange={() => console.log('slide change')}
-                onSwiper={() => {}}
+                navigation={true}
+                    pagination={{
+                      clickable: true,
+                    }}
+                    keyboard={{
+                        enabled: true,
+                      }}
+                      breakpoints={{
+                        769: {
+                          slidesPerView: 3,
+                          slidesPerGroup: 2,
+                        },
+                      }}
+               onSlideChange={() => console.log('slide change')}
+               onSwiper={(swiper) => console.log(swiper)}
                 className="swiper1"
             >
             {UpProjDets.map((val,key) => {
@@ -308,7 +434,18 @@ function TeachDash(props) {
             else{
                
                return(
-                <div id="react-logo3" key={key} style={{ width: 350, height: 350, marginLeft:'35%',marginTop:'-350px' }} />
+                  <div key={key}>
+                  <div
+                    id="react-logo3"
+                    style={{ marginTop: "-350px", marginLeft: "100px" }}
+                  >
+                    <img
+                      style={{ width: "400px", height: "350px" }}
+                      src={nodatafound}
+                      alt="no data"
+                    ></img>
+                  </div>
+                </div>
                )
             }
               })} 

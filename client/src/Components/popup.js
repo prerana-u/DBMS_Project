@@ -190,7 +190,7 @@ export default function Popup1() {
                                     <br/>
                                     <div >  
                                         <label>Upload a Brochure as PDF (Optional):  </label>
-                                        <input type="file" id="myfile" name="myfile" onChange={(e)=>(upload1(e))} required></input>
+                                        <input type="file" id="myfile" name="myfile" onChange={(e)=>(upload1(e))} ></input>
                                         
                                     </div>
                                     <input type="submit" value="Submit" onClick={(e)=>{popupform(e)}}/>
