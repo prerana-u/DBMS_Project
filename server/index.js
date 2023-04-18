@@ -414,7 +414,7 @@ app.post('/setskills', (req, res)=> {
 
         const fid=req.query.fid;
         db.execute(
-            "select r.regno,s.name, s.semester,s.class,r.event_name from student s join reg_fests r on r.regno=s.regno and r.festid="+fid,
+            "select r.regno,s.name, s.semester,s.class,r.event_name,s.no_of_fest from student s join reg_fests r on r.regno=s.regno and r.festid="+fid,
             (err, result)=> {
                 if (err) {
                     //console.log(err);
@@ -424,7 +424,7 @@ app.post('/setskills', (req, res)=> {
                     res.send(result);
                     }else(res.send({message: "No data found"}));
                 }
-          )
+          ) 
         });
 
         app.get('/get_reg_students_proj', (req, res) => {
@@ -640,7 +640,32 @@ app.post('/setskills', (req, res)=> {
           }
         );
   });
+
+  app.get('/get_list_feedback', (req, res) => {
   
+    db.execute(
+          "select distinct f.fname from fest f, fest_feedback r where f.fid=r.fid;",
+          
+          (err, result)=> {
+         // console.log(err);
+      //   console.log(result);
+          res.send(result);
+          }
+        );
+  });
+  
+  app.get('/get_feedback_result', (req, res) => {
+    var fname=req.query.fname;
+    db.execute(
+          "select s.name,s.regno,r.feedback,r.rating from student s, fest_feedback r where s.regno=r.regno and fid=(select fid from fest where fname='"+fname+"');",
+          
+          (err, result)=> {
+         // console.log(err);
+      //   console.log(result);
+          res.send(result);
+          }
+        );
+  });
 
 app.listen(3001, () => {
    console.log("running server");

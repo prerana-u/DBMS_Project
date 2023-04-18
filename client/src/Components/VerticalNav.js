@@ -96,8 +96,13 @@ const Verticalnav = (props)=> {
          
             </li>
             <br/>
+           
             <li>
-            <NavLink to={elink} name="editprofile" activeClassname='active' id="link"><b><i class="fa fa-user-pen"></i>  Edit Profile</b></NavLink>
+            <NavLink to="/viewfeedback"  name="viewfeedback" activeClassname='active' id="link"><b><i className="fa-sharp fa-solid fa-comment"></i> Feedback</b></NavLink>
+            </li>
+            <li>
+          
+            <NavLink to={elink} name="editprofile" activeClassname='active' id="link"><b><i className="fa fa-user-pen"></i>  Edit Profile</b></NavLink>
             </li>
             <br/>
             

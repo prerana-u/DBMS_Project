@@ -11,6 +11,7 @@ import StudentDash from './Components/Student_Dash';
 import FestReg from './Components/FestReg';
 import EditProfile from './Components/EditProfile';
 import EditProfileTeach from './Components/EditProfileTeach';
+import ViewFeedback from './Components/ViewFeedback';
 function App() {
  
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="skillform" element={<SkillForm />} />
         <Route path="studentdash" element={<StudentDash />} />
         <Route path="search" element={<SearchBar />} />
+        <Route path="viewfeedback" element={<ViewFeedback />} />
         <Route path="festreg" element={<FestReg/>}/>
         <Route path="editprofile" element={<EditProfile/>}/>
         <Route path="editprofileteach" element={<EditProfileTeach/>}/>
