@@ -73,6 +73,7 @@ export default function StuDataPopup(props) {
                                             <th>Semester</th>
                                             <th>Class</th>
                                           {props.etype==="fest"? <th>Event Name</th>:<th>No. of Previous Projects</th>} 
+                                          {props.etype==="fest"? <th>No. of Previous Fests</th>:console.log("None")}
                                         </tr>
                                         
                                             {data.map((val,key)=>{
@@ -91,6 +92,7 @@ export default function StuDataPopup(props) {
                                                         <td>{val.semester}</td>
                                                         <td>{val.class}</td>
                                                         {props.etype==="fest"? <td>{val.event_name}</td>:<td>{val.no_of_project-1}</td>} 
+                                                        {props.etype==="fest"? <td>{val.no_of_fest}</td>:console.log("none")} 
                                                         </tr>
                                                     )
                                                  }

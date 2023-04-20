@@ -98,7 +98,7 @@ function Homepage() {
         SkillFord is a talent recognition platform that provides universities a one stop solution towards student skill management and event registrations. Students can share skill details based on their capabilities and interests, and teachers can then utilize these skills for different projects or college fests based on requirements. 
         </p>
         <div class="cards">
-            <div class="card" style={{float: "left;"}}>
+            <div class="card_ab" style={{float: "left;"}}>
                 <img src={target} alt="Avatar" style={{width: "fit-content",height: "240px"}}/>
                 <div class="container1">
                     <h4><b>Our Goals</b></h4>
@@ -109,7 +109,7 @@ function Homepage() {
                    </ol>
                 </div>
             </div>
-            <div class="card1" style={{float: "right;"}}>
+            <div class="card_ab1" style={{float: "right;"}}>
                 <img src={contact} alt="Avatar" style={{width: "fit-content",height: "240px"}}/>
                 <div class="container1">
                 <h4><b>Contact Us</b></h4>
@@ -120,7 +120,7 @@ function Homepage() {
                    </ol>
                 </div>
             </div>
-            <div class="card1" style={{float: "right;"}}>
+            <div class="card_ab1" style={{float: "right;"}}>
                 <img src={loc} alt="Avatar" style={{width: "fit-content",height: "240px"}}/>
                 <div class="container1">
                 <h4><b>Built For</b></h4>
