@@ -13,6 +13,7 @@ const Verticalnav = (props)=> {
   const [nlink,setnlink]=useState("");
   const [elink,setelink]=useState("");
   const [slink,setslink]=useState("");
+  const [flink,setflink]=useState("");
   const supabase = createClient("https://npropcvowslhzxxaigvi.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wcm9wY3Zvd3NsaHp4eGFpZ3ZpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3OTM5OTg3NywiZXhwIjoxOTk0OTc1ODc3fQ.iJ_vCpYUyRFEIP3ZgfYVZvXaQoAHLK7OtierGGpasOA");
  (function(){
       localStorage.getItem("email")==="true" ? console.log("verfied") : window.location.href='http://localhost:3000/login';
@@ -27,7 +28,7 @@ const Verticalnav = (props)=> {
       setnlink("/td");
       setslink("/search");
       setelink("/editprofileteach");
-     
+      setflink("/viewfeedbackteach");
       console.log(uname);
     }
     else
@@ -39,6 +40,7 @@ const Verticalnav = (props)=> {
       document.getElementById("s").innerHTML="<b>Edit Skills</b>";
       document.getElementById('sicon').className="fa fa-pencil";
       setslink("/skillform");
+      setflink("/viewfeedback");
       setelink("/editprofile");
     }
 
@@ -98,7 +100,7 @@ const Verticalnav = (props)=> {
             <br/>
            
             <li>
-            <NavLink to="/viewfeedback"  name="viewfeedback" activeClassname='active' id="link"><b><i className="fa-sharp fa-solid fa-comment"></i> Feedback</b></NavLink>
+            <NavLink to={flink}  name="viewfeedback" activeClassname='active' id="link"><b><i className="fa-sharp fa-solid fa-comment"></i> Feedback</b></NavLink>
             </li>
             <li>
           

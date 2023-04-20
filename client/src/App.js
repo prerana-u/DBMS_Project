@@ -12,6 +12,7 @@ import FestReg from './Components/FestReg';
 import EditProfile from './Components/EditProfile';
 import EditProfileTeach from './Components/EditProfileTeach';
 import ViewFeedback from './Components/ViewFeedback';
+import ViewFeedbackTeacher from './Components/ViewFeedbackTeacher';
 function App() {
  
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="studentdash" element={<StudentDash />} />
         <Route path="search" element={<SearchBar />} />
         <Route path="viewfeedback" element={<ViewFeedback />} />
+        <Route path="viewfeedbackteach" element={<ViewFeedbackTeacher />} />
         <Route path="festreg" element={<FestReg/>}/>
         <Route path="editprofile" element={<EditProfile/>}/>
         <Route path="editprofileteach" element={<EditProfileTeach/>}/>

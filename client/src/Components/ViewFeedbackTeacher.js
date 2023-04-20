@@ -13,14 +13,25 @@ import headimg from './Images/headimg.png';
 import { Box } from '@mui/system';
 
 
-function ViewFeedback() {
+function ViewFeedbackTeacher() {
   const [fname, setFname] = useState("");
   const [list1,setList1]=useState([]);
   const [tname, setTName]=useState('');
   const[role,setRole]=useState("");
 
   const fetchdata1 = () => {
+    
+   
+  
+  Axios.get("http://localhost:3001/teachdata", {
 
+  }).then((response) => {
+     sessionStorage.teacherName=response.data[0].name;
+     setTName(response.data[0].name);
+     console.log(response);
+     console.log(response.data);
+
+})
 Axios.get("http://localhost:3001/get_list_feedback", {
 
 }).then((response) => {
@@ -58,7 +69,7 @@ Axios.get("http://localhost:3001/get_list_feedback", {
      return(
     
       <div className='main' onLoad={fetchdata1}>
-      <Verticalnav active="search" role="student"/>
+      <Verticalnav active="search" role="teacher"/>
 
       <div className="container">
 
@@ -114,4 +125,4 @@ Axios.get("http://localhost:3001/get_list_feedback", {
 
 }
 
-export default ViewFeedback;
+export default ViewFeedbackTeacher;
